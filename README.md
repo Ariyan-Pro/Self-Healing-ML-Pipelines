@@ -1,11 +1,14 @@
 ﻿# 🛡️ Self-Healing ML Pipelines
-**Safe Hybrid Control Architecture for Autonomous ML Operations | v0.1-safe-autonomy**
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![Architecture](https://img.shields.io/badge/architecture-hybrid%20control-orange.svg)](https://en.wikipedia.org/wiki/Control_theory)
-[![Safety](https://img.shields.io/badge/safety-confidence%20gated-green.svg)](https://en.wikipedia.org/wiki/Fail-safe)
-[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-NeurIPS%2026%20(ready)-blueviolet.svg)](docs/research/EXTENDED_ABSTRACT.md)
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-blue" alt="Python">
+  <img src="https://img.shields.io/badge/Architecture-Hybrid%20Control-orange" alt="Architecture">
+  <img src="https://img.shields.io/badge/Safety-Confidence%20Gated-green" alt="Safety">
+  <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
+  <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen" alt="Status">
+  <img src="https://img.shields.io/badge/ROI-378%25-success" alt="ROI">
+  <img src="https://img.shields.io/badge/Release-v0.1--safe--autonomy-blueviolet" alt="Release">
+</p>
 
 ## 🎯 Why This Exists
 Modern ML systems fail silently in production—**data drift occurs, relationships change, models decay**. Traditional monitoring alerts humans who respond slowly. This system **automatically detects, decides, and heals** with mathematical safety guarantees.
@@ -55,7 +58,11 @@ Modern ML systems fail silently in production—**data drift occurs, relationshi
 │ │
 └─────────────────────────────────────────────────────────────────────┘
 
-text
+<p align="center">
+  <img src="https://github.com/Ariyan-Pro/Self-Healing-ML-Pipelines/blob/main/docs/architecture_diagram.png" alt="6-Layer Control Architecture" width="800"/>
+  <br>
+  <em>Hybrid Control Architecture for Safe Autonomous ML Operations</em>
+</p>
 
 ### Layer Details:
 1. **Inference** - Serve active model, collect predictions
