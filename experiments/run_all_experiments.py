@@ -74,31 +74,17 @@ class ComprehensiveExperimentRunner:
     
     def run_concept_shift(self):
         """Run concept shift experiments"""
-        print("\n" + "="*70)
-        print("ðŸ§ª CONCEPT SHIFT EXPERIMENTS")
-        print("="*70)
+        print(f"\n🧪 Running concept shift experiments...")
         
-        start_time = time.time()
-        experiment = ConceptShiftSimulator()
-        results = experiment.run_comprehensive_test()
-        
-        # Save results
-        concept_file = os.path.join(self.results_dir, "concept_shift.json")
-        with open(concept_file, 'w') as f:
-            json.dump(results, f, indent=2, default=str)
-        
-        elapsed = time.time() - start_time
-        
-        self.all_results['concept_shift'] = {
-            'file': concept_file,
-            'elapsed_seconds': elapsed,
-            'num_scenarios': len(results)
-        }
-        self.all_results['metadata']['experiments'].append('concept_shift')
-        
-        print(f"âœ… Concept shift experiments completed in {elapsed:.2f}s")
-        return results
-    
+        try:
+            from concept_shift_simulator import ConceptShiftSimulator
+            experiment = ConceptShiftSimulator(seed=self.seed)
+            results = experiment.run_comprehensive_test()
+            return results
+        except Exception as e:
+            print(f"❌ Error during concept shift experiments: {e}")
+            print("⚠️  Skipping concept shift experiments...")
+            return {'error': str(e), 'status': 'failed', 'experiment': 'concept_shift'}
     def run_noise_injection(self):
         """Run noise injection experiments"""
         print("\n" + "="*70)
@@ -127,195 +113,157 @@ class ComprehensiveExperimentRunner:
         print(f"âœ… Noise injection experiments completed in {elapsed:.2f}s")
         return results
     
-    def generate_summary_report(self):
-        """Generate comprehensive summary report"""
-        print("\n" + "="*70)
-        print("ðŸ“Š COMPREHENSIVE EXPERIMENT SUMMARY")
-        print("="*70)
-        
-        # Calculate overall statistics
-        total_scenarios = 0
-        total_detected = 0
-        detection_times = []
-        
-        # Collect from all experiments
-        experiments_data = []
-        
-        # Synthetic drift stats
-        if self.all_results['synthetic_drift']:
-            drift_file = self.all_results['synthetic_drift']['file']
-            with open(drift_file, 'r') as f:
-                drift_data = json.load(f)
-            
-            drift_scenarios = len(drift_data)
-            drift_detected = sum(1 for r in drift_data if r['drift_detected'])
-            total_scenarios += drift_scenarios
-            total_detected += drift_detected
-            
-            experiments_data.append({
-                'name': 'Synthetic Drift',
-                'scenarios': drift_scenarios,
-                'detected': drift_detected,
-                'detection_rate': drift_detected / drift_scenarios if drift_scenarios else 0
-            })
-        
-        # Concept shift stats
-        if self.all_results['concept_shift']:
-            concept_file = self.all_results['concept_shift']['file']
-            with open(concept_file, 'r') as f:
-                concept_data = json.load(f)
-            
-            concept_scenarios = concept_data.get('scenarios', 0)
-            concept_detected = concept_data.get('detected', 0)
-            total_scenarios += concept_scenarios
-            total_detected += concept_detected
-            
-            experiments_data.append({
-                'name': 'Concept Shift',
-                'scenarios': concept_scenarios,
-                'detected': concept_detected,
-                'detection_rate': concept_detected / concept_scenarios if concept_scenarios else 0
-            })
-        
-        # Noise injection stats
-        if self.all_results['noise_injection']:
-            noise_file = self.all_results['noise_injection']['file']
-            with open(noise_file, 'r') as f:
-                noise_data = json.load(f)
-            
-            noise_scenarios = len(noise_data.get('results', []))
-            noise_detected = noise_data.get('summary', {}).get('detected', 0)
-            total_scenarios += noise_scenarios
-            total_detected += noise_detected
-            
-            experiments_data.append({
-                'name': 'Noise Injection',
-                'scenarios': noise_scenarios,
-                'detected': noise_detected,
-                'detection_rate': noise_detected / noise_scenarios if noise_scenarios else 0
-            })
-        
-        # Print summary
-        print(f"\nðŸ“ˆ Overall Performance:")
-        print(f"  Total scenarios: {total_scenarios}")
-        print(f"  Total detected: {total_detected}")
-        print(f"  Overall detection rate: {total_detected/total_scenarios*100:.1f}%" if total_scenarios else "N/A")
-        
-        print(f"\nðŸ“‹ Experiment Breakdown:")
-        for exp in experiments_data:
-            print(f"  {exp['name']}:")
-            print(f"    Scenarios: {exp['scenarios']}")
-            print(f"    Detected: {exp['detected']}")
-            print(f"    Detection rate: {exp['detection_rate']*100:.1f}%")
-        
-        # System capabilities summary
-        print(f"\nðŸŽ¯ System Capabilities Demonstrated:")
-        capabilities = [
-            "âœ“ Covariate drift detection (feature distribution shifts)",
-            "âœ“ Concept shift detection (relationship changes)",
-            "âœ“ Noise/anomaly detection (various noise types)",
-            "âœ“ Adaptive decision making (policy-based + bandit)",
-            "âœ“ Healing action execution (retrain/rollback/fallback)",
-            "âœ“ Performance monitoring (latency, accuracy tracking)",
-            "âœ“ Safe fallback guarantees (deterministic safety)"
-        ]
-        
-        for capability in capabilities:
-            print(f"  {capability}")
-        
-        # Save comprehensive report
-        summary_file = os.path.join(self.results_dir, "COMPREHENSIVE_SUMMARY.md")
-        
-        with open(summary_file, 'w') as f:
-            f.write("# Self-Healing ML Pipeline: Experiment Summary\n\n")
-            f.write(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(f"**System Version:** v0.1-safe-autonomy\n\n")
-            
-            f.write("## Overall Performance\n\n")
-            f.write(f"- **Total Scenarios:** {total_scenarios}\n")
-            f.write(f"- **Total Detected:** {total_detected}\n")
-            if total_scenarios:
-                f.write(f"- **Detection Rate:** {total_detected/total_scenarios*100:.1f}%\n\n")
-            
-            f.write("## Experiment Details\n\n")
-            for exp in experiments_data:
-                f.write(f"### {exp['name']}\n")
-                f.write(f"- Scenarios: {exp['scenarios']}\n")
-                f.write(f"- Detected: {exp['detected']}\n")
-                f.write(f"- Detection Rate: {exp['detection_rate']*100:.1f}%\n\n")
-            
-            f.write("## System Capabilities\n\n")
-            for capability in capabilities:
-                f.write(f"- {capability}\n")
-            
-            f.write("\n## Files Generated\n\n")
-            for root, dirs, files in os.walk(self.results_dir):
-                for file in files:
-                    if file.endswith('.json') or file.endswith('.png'):
-                        f.write(f"- {file}\n")
-        
-        # Save unified results
-        unified_file = os.path.join(self.results_dir, "unified_results.json")
-        with open(unified_file, 'w') as f:
-            json.dump(self.all_results, f, indent=2, default=str)
-        
-        print(f"\nðŸ“ All results saved to directory: {self.results_dir}/")
-        print(f"ðŸ“„ Summary report: {summary_file}")
-        print(f"ðŸ“Š Unified results: {unified_file}")
-        
-        return self.all_results
-    
+
     def run_all(self):
         """Run all experiments"""
-        print("ðŸš€ Starting comprehensive experiments for Self-Healing ML Pipeline")
-        print(f"ðŸ“… Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"{'='*60}")
+        print(f"🚀 Starting comprehensive experiments for Self-Healing ML Pipeline")
+        print(f"📅 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"{'='*60}")
         
+        all_results = {}
+        
+        # 1. Synthetic Drift Experiments
         try:
-            self.run_synthetic_drift()
-            self.run_concept_shift()
-            self.run_noise_injection()
-            
-            final_results = self.generate_summary_report()
-            
-            print("\n" + "="*70)
-            print("âœ… ALL EXPERIMENTS COMPLETED SUCCESSFULLY")
-            print("="*70)
-            print(f"\nðŸŽ¯ Next steps:")
-            print("  1. Review the generated reports")
-            print("  2. Examine the JSON files for detailed results")
-            print("  3. Use decision traces for audit and analysis")
-            print(f"\nðŸ“ Results directory: {self.results_dir}/")
-            
-            return final_results
-            
+            print(f"\n{'='*60}")
+            print(f"🧪 SYNTHETIC DRIFT EXPERIMENTS")
+            print(f"{'='*60}")
+            drift_results = self.run_synthetic_drift()
+            all_results['synthetic_drift'] = drift_results
+            print(f"✅ Synthetic drift experiments completed in {drift_results.get('total_time', 0):.2f}s")
         except Exception as e:
-            print(f"\nâŒ Error during experiments: {e}")
-            import traceback
-            traceback.print_exc()
-            return None
+            print(f"❌ Synthetic drift experiments failed: {e}")
+            all_results['synthetic_drift'] = {'error': str(e), 'status': 'failed'}
+        
+        # 2. Concept Shift Experiments
+        try:
+            print(f"\n{'='*60}")
+            print(f"🧪 CONCEPT SHIFT EXPERIMENTS")
+            print(f"{'='*60}")
+            concept_results = self.run_concept_shift()
+            all_results['concept_shift'] = concept_results
+            print(f"✅ Concept shift experiments completed")
+        except Exception as e:
+            print(f"❌ Concept shift experiments failed: {e}")
+            all_results['concept_shift'] = {'error': str(e), 'status': 'failed'}
+        
+        # 3. Noise Injection Experiments
+        try:
+            print(f"\n{'='*60}")
+            print(f"🧪 NOISE INJECTION EXPERIMENTS")
+            print(f"{'='*60}")
+            noise_results = self.run_noise_injection()
+            all_results['noise_injection'] = noise_results
+            print(f"✅ Noise injection experiments completed")
+        except Exception as e:
+            print(f"❌ Noise injection experiments failed: {e}")
+            all_results['noise_injection'] = {'error': str(e), 'status': 'failed'}
+        
+        # 4. Generate summary report
+        final_results = self.generate_summary_report(all_results)
+        
+        return final_results
+    def generate_summary_report(self, results=None):
+        """Generate comprehensive experiment summary report"""
+        from datetime import datetime
+        import json
+        
+        if results is None:
+            results = self.results
+        
+        print("\n" + "="*60)
+        print("📋 COMPREHENSIVE EXPERIMENT SUMMARY")
+        print("="*60)
+        
+        # Safely extract data from results
+        if not isinstance(results, dict):
+            results = {}
+        
+        drift_data = results.get('synthetic_drift', {})
+        concept_data = results.get('concept_shift', {})
+        noise_data = results.get('noise_injection', {})
+        
+        # Handle different data structures safely
+        drift_scenarios = 0
+        if isinstance(drift_data, dict) and 'results' in drift_data:
+            drift_scenarios = len(drift_data.get('results', []))
+        
+        concept_scenarios = 0
+        if isinstance(concept_data, dict) and 'results' in concept_data:
+            concept_scenarios = len(concept_data.get('results', []))
+        
+        noise_scenarios = 0
+        if isinstance(noise_data, dict) and 'results' in noise_data:
+            noise_scenarios = len(noise_data.get('results', []))
+        
+        total_scenarios = drift_scenarios + concept_scenarios + noise_scenarios
+        
+        print(f"\n📊 Experiment Coverage:")
+        print(f"  Synthetic Drift: {drift_scenarios} scenarios")
+        print(f"  Concept Shift: {concept_scenarios} scenarios")
+        print(f"  Noise Injection: {noise_scenarios} scenarios")
+        print(f"  Total: {total_scenarios} scenarios")
+        
+        # Check for errors
+        errors = []
+        for exp_name, data in results.items():
+            if isinstance(data, dict) and data.get('status') == 'failed':
+                errors.append(f"{exp_name}: {data.get('error', 'Unknown error')}")
+        
+        if errors:
+            print(f"\n⚠️  Experiments with issues:")
+            for error in errors:
+                print(f"  - {error}")
+        else:
+            print(f"\n✅ All experiments completed successfully!")
+        
+        # Save summary
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        summary_file = f"comprehensive_experiment_summary_{timestamp}.json"
+        
+        summary_data = {
+            'timestamp': datetime.now().isoformat(),
+            'experiments': {
+                'synthetic_drift': {
+                    'scenarios': drift_scenarios,
+                    'has_data': isinstance(drift_data, dict) and 'results' in drift_data
+                },
+                'concept_shift': {
+                    'scenarios': concept_scenarios,
+                    'has_data': isinstance(concept_data, dict) and 'results' in concept_data
+                },
+                'noise_injection': {
+                    'scenarios': noise_scenarios,
+                    'has_data': isinstance(noise_data, dict) and 'results' in noise_data
+                }
+            },
+            'total_scenarios': total_scenarios,
+            'errors': errors
+        }
+        
+        with open(summary_file, 'w') as f:
+            json.dump(summary_data, f, indent=2, default=str)
+        
+        print(f"\n📁 Summary saved to: {summary_file}")
+        
+        return summary_data
+
+
+
+
+
+
+
+def main():
+    """Main entry point for the experiment suite"""
+    runner = ComprehensiveExperimentRunner()
+    print("🚀 Starting Self-Healing ML Pipeline Experiment Suite")
+    print("="*60)
+    results = runner.run_all()
+    print("\n" + "="*60)
+    print("✅ Experiment Suite Complete!")
+    print(f"Results saved to: comprehensive_experiment_summary_*.json")
+    return results
 
 if __name__ == "__main__":
-    import argparse
-    
-    parser = argparse.ArgumentParser(
-        description='Run comprehensive experiments for Self-Healing ML Pipeline'
-    )
-    parser.add_argument('--experiment', type=str, default='all',
-                       choices=['drift', 'concept', 'noise', 'all'],
-                       help='Specific experiment to run')
-    
-    args = parser.parse_args()
-    
-    runner = ComprehensiveExperimentRunner()
-    
-    if args.experiment == 'all':
-        runner.run_all()
-    elif args.experiment == 'drift':
-        runner.run_synthetic_drift()
-        runner.generate_summary_report()
-    elif args.experiment == 'concept':
-        runner.run_concept_shift()
-        runner.generate_summary_report()
-    elif args.experiment == 'noise':
-        runner.run_noise_injection()
-        runner.generate_summary_report()
+    main()

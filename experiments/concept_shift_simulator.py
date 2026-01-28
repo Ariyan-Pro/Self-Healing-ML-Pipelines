@@ -1,253 +1,254 @@
-﻿# experiments/concept_shift_simulator.py
+﻿"""
+Concept Shift Simulator for ML pipeline testing
+"""
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
+import time
 import json
 from datetime import datetime
 
 class ConceptShiftSimulator:
-    """Simulates concept shift and evaluates detection/response"""
+    """Simulates concept shift (relationship changes) in ML data"""
     
-    def __init__(self, n_samples=1000, n_features=10):
-        self.n_samples = n_samples
-        self.n_features = n_features
-        
-        # Generate base data with linear relationship
-        np.random.seed(42)
-        self.X_base = np.random.randn(n_samples, n_features)
-        self.coefficients = np.random.randn(n_features)
-        self.y_base = (self.X_base @ self.coefficients + np.random.randn(n_samples) * 0.1 > 0).astype(int)
-        
-        self.models = {}
+    def __init__(self, seed=42):
+        self.seed = seed
+        np.random.seed(seed)
         self.results = []
+        
+    def generate_synthetic_data(self, n_samples=1000, n_features=10):
+        """Generate synthetic classification data"""
+        X = np.random.randn(n_samples, n_features)
+        
+        # Create meaningful coefficients
+        coefficients = np.random.randn(n_features)
+        coefficients = coefficients / np.linalg.norm(coefficients)
+        
+        # Generate labels with some noise
+        logits = X @ coefficients
+        probabilities = 1 / (1 + np.exp(-logits))
+        y = (probabilities > 0.5).astype(int)
+        
+        # Add some label noise
+        noise_mask = np.random.random(n_samples) < 0.1
+        y[noise_mask] = 1 - y[noise_mask]
+        
+        return X, y, coefficients
     
-    def induce_concept_shift(self, shift_type='abrupt', shift_time=0.5, magnitude=0.5):
-        """Induce concept shift in the data"""
-        
-        X_shifted = self.X_base.copy()
-        y_shifted = self.y_base.copy()
-        
-        split_point = int(self.n_samples * shift_time)
+    def induce_concept_shift(self, X, coefficients, shift_type='abrupt', magnitude=0.3):
+        """Induce concept shift by changing feature relationships"""
+        n_samples, n_features = X.shape
         
         if shift_type == 'abrupt':
-            # Suddenly change coefficients
-            new_coefficients = self.coefficients.copy()
-            new_coefficients[:int(n_features * magnitude)] *= -1  # Flip signs
-            
-            # Generate new labels for shifted portion
-            y_new = (X_shifted[split_point:] @ new_coefficients + 
-                    np.random.randn(self.n_samples - split_point) * 0.1 > 0).astype(int)
-            y_shifted[split_point:] = y_new
+            # Abrupt change: flip signs of some coefficients
+            new_coefficients = coefficients.copy()
+            # Fix: Use len(new_coefficients) instead of n_features
+            new_coefficients[:int(len(new_coefficients) * magnitude)] *= -1
             
         elif shift_type == 'gradual':
-            # Gradually change coefficients over time
-            for i in range(split_point, self.n_samples):
-                progress = (i - split_point) / (self.n_samples - split_point)
-                mixed_coefficients = (1 - progress) * self.coefficients + progress * (-self.coefficients)
-                y_shifted[i] = (X_shifted[i] @ mixed_coefficients + 
-                               np.random.randn() * 0.1 > 0).astype(int)
+            # Gradual change: interpolate between original and flipped
+            new_coefficients = coefficients.copy()
+            flip_indices = np.random.choice(
+                n_features, 
+                size=int(n_features * magnitude), 
+                replace=False
+            )
+            for idx in flip_indices:
+                new_coefficients[idx] = -coefficients[idx] * magnitude
         
         elif shift_type == 'recurring':
-            # Cyclical concept shift
-            y_shifted = self.y_base.copy()
-            cycle_length = 200
-            for i in range(self.n_samples):
-                cycle_pos = (i % cycle_length) / cycle_length
-                if cycle_pos > 0.5:
-                    # Second half of cycle uses inverted relationship
-                    y_shifted[i] = 1 - self.y_base[i]
+            # Recurring: oscillate between patterns
+            new_coefficients = coefficients.copy()
+            oscillation = np.sin(np.arange(n_features) * 0.5) * magnitude
+            new_coefficients *= (1 + oscillation)
         
-        return X_shifted, y_shifted
+        # Generate new labels with shifted concept
+        logits = X @ new_coefficients
+        probabilities = 1 / (1 + np.exp(-logits))
+        y_shifted = (probabilities > 0.5).astype(int)
+        
+        # Add noise
+        noise_mask = np.random.random(n_samples) < 0.1
+        y_shifted[noise_mask] = 1 - y_shifted[noise_mask]
+        
+        return X, y_shifted, new_coefficients
     
-    def evaluate_detection(self, X_train, y_train, X_test, y_test, window_size=100):
-        """Evaluate concept shift detection using accuracy degradation"""
+    def train_model(self, X_train, y_train):
+        """Train a simple classifier"""
+        model = LogisticRegression(random_state=self.seed, max_iter=1000)
+        model.fit(X_train, y_train)
+        return model
+    
+    def evaluate_shift(self, model, X_test, y_original, y_shifted):
+        """Evaluate impact of concept shift"""
+        # Predictions on original and shifted data
+        y_pred_original = model.predict(X_test)
+        y_pred_shifted = model.predict(X_test)
         
-        # Train initial model
-        model = LogisticRegression(max_iter=1000)
-        model.fit(X_train[:window_size], y_train[:window_size])
+        # Calculate metrics
+        acc_original = accuracy_score(y_original, y_pred_original)
+        acc_shifted = accuracy_score(y_shifted, y_pred_shifted)
         
-        # Monitor accuracy over sliding windows
-        accuracies = []
-        detected_shifts = []
+        accuracy_drop = acc_original - acc_shifted
         
-        for i in range(window_size, len(X_test), window_size//2):
-            X_window = X_test[i:i+window_size]
-            y_window = y_test[i:i+window_size]
-            
-            if len(X_window) < window_size:
-                break
-            
-            # Predict and calculate accuracy
-            y_pred = model.predict(X_window)
-            accuracy = accuracy_score(y_window, y_pred)
-            accuracies.append(accuracy)
-            
-            # Detect shift if accuracy drops significantly
-            if len(accuracies) > 1:
-                accuracy_drop = accuracies[-2] - accuracy
-                if accuracy_drop > 0.15:  # 15% drop threshold
-                    detected_shifts.append({
-                        'window': i,
-                        'accuracy_drop': accuracy_drop,
-                        'previous_accuracy': accuracies[-2],
-                        'current_accuracy': accuracy
-                    })
+        # Calculate drift score (difference in prediction distributions)
+        drift_score = np.abs(y_pred_original - y_pred_shifted).mean()
         
         return {
-            'accuracies': accuracies,
-            'detected_shifts': detected_shifts,
-            'average_accuracy': np.mean(accuracies) if accuracies else 0
+            'accuracy_original': acc_original,
+            'accuracy_shifted': acc_shifted,
+            'accuracy_drop': accuracy_drop,
+            'drift_score': drift_score,
+            'shift_detected': accuracy_drop > 0.1  # Threshold for detection
         }
     
-    def run_experiment(self, shift_type='abrupt', magnitude=0.5):
-        """Run complete concept shift experiment"""
-        
-        print(f"\nðŸ” Running Concept Shift Experiment:")
+    def run_experiment(self, shift_type='abrupt', magnitude=0.3):
+        """Run a complete concept shift experiment"""
+        print(f"\n🔍 Running Concept Shift Experiment:")
         print(f"  Type: {shift_type}")
         print(f"  Magnitude: {magnitude}")
         
-        # Generate shifted data
-        X_shifted, y_shifted = self.induce_concept_shift(
-            shift_type=shift_type,
-            magnitude=magnitude
+        # 1. Generate data
+        X, y_original, coefficients = self.generate_synthetic_data()
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y_original, test_size=0.3, random_state=self.seed
         )
         
-        # Split into train/test (simulating time)
-        split_idx = self.n_samples // 2
-        X_train, y_train = X_shifted[:split_idx], y_shifted[:split_idx]
-        X_test, y_test = X_shifted[split_idx:], y_shifted[split_idx:]
+        # 2. Train initial model
+        start_time = time.time()
+        model = self.train_model(X_train, y_train)
+        training_time = (time.time() - start_time) * 1000  # ms
         
-        # Evaluate detection
-        results = self.evaluate_detection(X_train, y_train, X_test, y_test)
+        # 3. Induce concept shift in test data
+        X_test_shifted, y_test_shifted, _ = self.induce_concept_shift(
+            X_test, coefficients, shift_type, magnitude
+        )
         
-        # Generate report
-        n_shifts = len(results['detected_shifts'])
-        detection_rate = n_shifts > 0
+        # 4. Evaluate shift
+        start_time = time.time()
+        evaluation = self.evaluate_shift(model, X_test, y_test, y_test_shifted)
+        evaluation_time = (time.time() - start_time) * 1000  # ms
         
-        report = {
+        # 5. Record results
+        result = {
             'shift_type': shift_type,
             'magnitude': magnitude,
-            'detected': detection_rate,
-            'num_shifts_detected': n_shifts,
-            'avg_accuracy': results['average_accuracy'],
-            'detection_details': results['detected_shifts']
+            'training_time_ms': training_time,
+            'evaluation_time_ms': evaluation_time,
+            **evaluation
         }
         
-        # Print results
-        print(f"\nðŸ“Š Results:")
-        print(f"  Shift detected: {'YES' if detection_rate else 'NO'}")
-        print(f"  Number of shifts: {n_shifts}")
-        print(f"  Average accuracy: {results['average_accuracy']:.3f}")
+        self.results.append(result)
         
-        if results['detected_shifts']:
-            print(f"\nâš ï¸  Shift Events:")
-            for i, shift in enumerate(results['detected_shifts'][:3]):  # Show first 3
-                print(f"    Event {i+1}: Drop of {shift['accuracy_drop']:.3f} "
-                      f"at window {shift['window']}")
+        # 6. Print results
+        print(f"📊 Results:")
+        print(f"  Accuracy drop: {result['accuracy_drop']:.3f}")
+        print(f"  Drift score: {result['drift_score']:.3f}")
+        print(f"  Shift detected: {result['shift_detected']}")
+        print(f"  Training time: {training_time:.2f} ms")
+        print(f"  Evaluation time: {evaluation_time:.2f} ms")
         
-        # Plot results
-        self._plot_results(results, shift_type)
-        
-        self.results.append(report)
-        return report
-    
-    def _plot_results(self, results, shift_type):
-        """Visualize concept shift detection"""
-        plt.figure(figsize=(10, 6))
-        
-        # Plot accuracy over time
-        accuracies = results['accuracies']
-        plt.plot(accuracies, label='Model Accuracy', linewidth=2)
-        
-        # Mark detected shifts
-        for shift in results['detected_shifts']:
-            window_idx = len(accuracies) // 2  # Approximate position
-            plt.axvline(x=window_idx, color='red', alpha=0.5, linestyle='--')
-            plt.text(window_idx, 0.5, 'Shift Detected', 
-                    rotation=90, alpha=0.7)
-        
-        plt.axhline(y=0.5, color='gray', linestyle=':', alpha=0.5)
-        plt.xlabel('Time Window')
-        plt.ylabel('Accuracy')
-        plt.title(f'Concept Shift Detection: {shift_type}')
-        plt.legend()
-        plt.grid(True, alpha=0.3)
-        
-        # Save plot
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"concept_shift_{shift_type}_{timestamp}.png"
-        plt.savefig(filename, dpi=150, bbox_inches='tight')
-        plt.close()
-        
-        print(f"ðŸ“ˆ Plot saved to: {filename}")
+        return result
     
     def run_comprehensive_test(self):
         """Run multiple concept shift scenarios"""
+        print("🧪 Running comprehensive concept shift experiments...")
+        
         scenarios = [
+            ('abrupt', 0.1),
             ('abrupt', 0.3),
-            ('abrupt', 0.7),
-            ('gradual', 0.5),
-            ('recurring', 0.4),
-            ('abrupt', 0.1)  # Minor shift
+            ('abrupt', 0.5),
+            ('gradual', 0.2),
+            ('gradual', 0.4),
+            ('recurring', 0.3)
         ]
         
-        all_results = []
         for shift_type, magnitude in scenarios:
-            result = self.run_experiment(shift_type, magnitude)
-            all_results.append(result)
+            try:
+                self.run_experiment(shift_type, magnitude)
+            except Exception as e:
+                print(f"❌ Error in scenario ({shift_type}, {magnitude}): {e}")
+                # Continue with other scenarios
+                continue
         
-        # Generate summary
-        self._generate_summary(all_results)
-        return all_results
+        return self.generate_summary_report()
     
-    def _generate_summary(self, results):
-        """Generate comprehensive summary report"""
-        print(f"\n{'='*60}")
-        print("ðŸ“‹ CONCEPT SHIFT EXPERIMENT SUMMARY")
-        print('='*60)
+    def generate_summary_report(self):
+        """Generate comprehensive experiment report"""
+        if not self.results:
+            print("⚠️  No results to summarize")
+            return None
         
-        detected = [r for r in results if r['detected']]
-        not_detected = [r for r in results if not r['detected']]
+        print("\n" + "="*60)
+        print("📈 CONCEPT SHIFT EXPERIMENT SUMMARY")
+        print("="*60)
+        
+        # Calculate statistics
+        detected = [r for r in self.results if r['shift_detected']]
+        not_detected = [r for r in self.results if not r['shift_detected']]
         
         print(f"\nDetection Performance:")
-        print(f"  Shifts detected: {len(detected)}/{len(results)} scenarios")
+        print(f"  Shifts detected: {len(detected)}/{len(self.results)} scenarios")
         
         if detected:
-            avg_accuracy = np.mean([r['avg_accuracy'] for r in detected])
-            avg_shifts = np.mean([r['num_shifts_detected'] for r in detected])
-            print(f"  Average accuracy when detected: {avg_accuracy:.3f}")
-            print(f"  Average shifts per scenario: {avg_shifts:.2f}")
+            avg_accuracy_drop = np.mean([r['accuracy_drop'] for r in detected])
+            avg_drift_score = np.mean([r['drift_score'] for r in detected])
+            avg_eval_time = np.mean([r['evaluation_time_ms'] for r in detected])
+            
+            print(f"\n📊 Metrics (detected scenarios):")
+            print(f"  Average accuracy drop: {avg_accuracy_drop:.3f}")
+            print(f"  Average drift score: {avg_drift_score:.3f}")
+            print(f"  Average evaluation time: {avg_eval_time:.2f} ms")
         
-        print(f"\nScenario Details:")
-        for result in results:
-            status = "âœ“" if result['detected'] else "âœ—"
-            print(f"  {status} {result['shift_type']} (mag={result['magnitude']}): "
-                  f"{result['num_shifts_detected']} shifts, acc={result['avg_accuracy']:.3f}")
-        
-        # Save comprehensive results
+        # Save detailed results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"concept_shift_results_{timestamp}.json"
         
         with open(output_file, 'w') as f:
             json.dump({
                 'timestamp': datetime.now().isoformat(),
-                'scenarios': len(results),
+                'scenarios': len(self.results),
                 'detected': len(detected),
-                'results': results,
+                'results': self.results,
                 'summary': {
-                    'detection_rate': len(detected) / len(results) if results else 0,
-                    'avg_accuracy_detected': float(avg_accuracy) if detected else 0,
-                    'avg_shifts_per_scenario': float(avg_shifts) if detected else 0
+                    'detection_rate': len(detected)/len(self.results) if self.results else 0,
+                    'avg_accuracy_drop': float(avg_accuracy_drop) if detected else 0,
+                    'avg_drift_score': float(avg_drift_score) if detected else 0
                 }
             }, f, indent=2, default=str)
         
-        print(f"\nðŸ“ Detailed results saved to: {output_file}")
+        print(f"\n📁 Detailed results saved to: {output_file}")
+        
+        return {
+            'detection_rate': len(detected)/len(self.results) if self.results else 0,
+            'avg_accuracy_drop': avg_accuracy_drop if detected else 0,
+            'avg_drift_score': avg_drift_score if detected else 0,
+            'output_file': output_file
+        }
 
-if __name__ == "__main__":
+def main():
+    """Command-line interface"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Run concept shift experiments')
+    parser.add_argument('--scenario', type=str, default='comprehensive',
+                       choices=['abrupt', 'gradual', 'recurring', 'comprehensive'],
+                       help='Concept shift scenario to run')
+    parser.add_argument('--magnitude', type=float, default=0.3,
+                       help='Shift magnitude (0.1 to 0.5)')
+    
+    args = parser.parse_args()
+    
     simulator = ConceptShiftSimulator()
     
-    # Run comprehensive test
-    print("ðŸ§ª Running comprehensive concept shift experiments...")
-    simulator.run_comprehensive_test()
+    if args.scenario == 'comprehensive':
+        print("🧪 Running comprehensive concept shift experiments...")
+        simulator.run_comprehensive_test()
+    else:
+        print(f"🧪 Running {args.scenario} concept shift experiment...")
+        simulator.run_experiment(args.scenario, args.magnitude)
+
+if __name__ == "__main__":
+    main()
