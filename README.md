@@ -1,6 +1,14 @@
 ﻿# 🛡️ Self-Healing ML Pipelines
 
 <p align="center">
+  <img src="https://github.com/Ariyan-Pro/Self-Healing-ML-Pipelines/blob/main/docs/logo.PNG" alt="6-Layer Control Architecture" width="800"/>
+  <br>
+  <em>Hybrid Control Architecture for Safe Autonomous ML Operations</em>
+</p>
+
+
+
+<p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-blue" alt="Python">
   <img src="https://img.shields.io/badge/Architecture-Hybrid%20Control-orange" alt="Architecture">
   <img src="https://img.shields.io/badge/Safety-Confidence%20Gated-green" alt="Safety">
