@@ -1,0 +1,67 @@
+version: "1.0"
+
+model:
+  name: baseline_classifier
+  version: v1.0.0
+  type: sklearn_random_forest
+  retrain_threshold: 0.15
+  rollback_threshold: 0.10
+  max_versions_to_keep: 5
+
+data:
+  reference_window_days: 14
+  inference_window_minutes: 30
+  feature_columns: []
+  target_column: target
+
+monitoring:
+  drift:
+    method: ks
+    threshold: 0.2
+    window_size: 1000
+    check_interval_minutes: 5
+
+  anomalies:
+    method: z_score
+    threshold: 3.0
+    max_rate: 0.05
+
+  performance:
+    metrics:
+      - accuracy
+      - f1_score
+      - precision
+      - recall
+    evaluation_interval_hours: 24
+
+healing:
+  enable_auto_retrain: true
+  enable_rollback: true
+  enable_fallback: true
+  max_retrain_attempts: 3
+  cooldown_minutes: 30
+
+  actions:
+    retrain:
+      priority: 1
+      timeout_minutes: 60
+
+    rollback:
+      priority: 2
+      keep_last_n_models: 3
+
+    fallback:
+      priority: 3
+      fallback_model_path: models/fallback/rule_based.joblib
+
+logging:
+  level: INFO
+  format: json
+  file_path: logs/self_healing_ml.log
+  max_size_mb: 100
+  backup_count: 5
+
+metrics:
+  prometheus_enabled: true
+  port: 9090
+  update_interval_seconds: 30

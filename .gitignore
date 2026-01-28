@@ -1,0 +1,74 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/*.log
+!logs/decision_traces/*.json  # Keep audit trails
+
+# Data
+*.csv
+*.data
+*.feather
+*.h5
+*.parquet
+*.pickle
+*.pkl
+
+# Models
+*.joblib
+*.pth
+*.pt
+*.onnx
+
+# Experiments (keep results but not large files)
+experiment_results_*.json
+!ablation_study_results_*.json  # Keep key results
+!ablation_study_visualization_*.png  # Keep key visualizations
+
+# Archives (except the main release)
+*.zip
+!Self-Healing-ML-Pipeline-v0.1-safe-autonomy.zip  # Keep final release
+
+# Temporary
+temp/
+tmp/

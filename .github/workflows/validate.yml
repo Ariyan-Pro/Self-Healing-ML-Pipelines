@@ -1,0 +1,52 @@
+﻿name: Validate System
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest
+        
+    - name: Run validation
+      run: |
+        python validate_production.py
+        
+    - name: Run ablation study
+      run: |
+        python experiments/ablation_study.py
+        
+    - name: Check decision traces
+      run: |
+        python -c "
+        import os
+        traces = [f for f in os.listdir('logs/decision_traces') if f.endswith('.json')]
+        print(f'Found {len(traces)} decision trace files')
+        assert len(traces) > 0, 'No decision traces found'
+        "
+        
+    - name: Archive validation results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: validation-results
+        path: |
+          ablation_study_visualization_*.png
+          ablation_study_results_*.json
+          logs/decision_traces/

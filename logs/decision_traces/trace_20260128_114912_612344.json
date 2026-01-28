@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-01-28T11:49:12.612344",
+  "incident_id": "incident_20260128_114912_2",
+  "state": {
+    "drift_score": 0.15,
+    "accuracy_drop": 0.08,
+    "anomaly_rate": 0.12
+  },
+  "rule_action": "retrain",
+  "rule_policy": "high_data_drift",
+  "bandit_action": "fallback",
+  "bandit_confidence": 0.85,
+  "final_action": "fallback",
+  "reason": "adaptive decision (confidence: 0.85)",
+  "confidence_threshold": 0.8,
+  "system_version": "v0.1-safe-autonomy"
+}

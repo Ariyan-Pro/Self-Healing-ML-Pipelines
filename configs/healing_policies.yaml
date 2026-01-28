@@ -1,0 +1,24 @@
+policies:
+  - name: high_data_drift
+    condition: data_drift > 0.2
+    action: retrain
+    severity: high
+    description: "Data distribution has significantly changed"
+  
+  - name: accuracy_drop
+    condition: accuracy_drop > 0.1
+    action: rollback
+    severity: critical
+    description: "Model accuracy dropped below acceptable threshold"
+  
+  - name: high_anomaly_rate
+    condition: anomaly_rate > 0.05
+    action: fallback
+    severity: medium
+    description: "Abnormal inference patterns detected"
+  
+  - name: combined_issues
+    condition: data_drift > 0.15 AND accuracy_drop > 0.05
+    action: retrain
+    severity: high
+    description: "Multiple issues requiring immediate attention"

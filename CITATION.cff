@@ -1,0 +1,26 @@
+﻿{
+  "cff-version": "1.2.0",
+  "message": "If you use this software, please cite it as below.",
+  "title": "Self-Healing ML Pipelines: Safe Hybrid Control Architecture",
+  "version": "v0.1-safe-autonomy",
+  "date-released": "2026-01-28",
+  "authors": [
+    {
+      "family-names": "YourLastName",
+      "given-names": "YourFirstName"
+    }
+  ],
+  "license": "MIT",
+  "repository-code": "https://github.com/yourusername/self-healing-ml-pipelines",
+  "abstract": "A hybrid control system for autonomous ML operations that guarantees safe recovery from drift and anomalies through a combination of rule-based safety mechanisms and contextual bandit optimization, with full audit trails and empirical validation.",
+  "keywords": [
+    "machine-learning",
+    "mlops",
+    "autonomous-systems",
+    "control-theory",
+    "reliability",
+    "safety",
+    "reinforcement-learning",
+    "contextual-bandits"
+  ]
+}

@@ -1,0 +1,135 @@
+﻿# enterprise_platform/policy_templates/production_critical_policy.yaml
+
+policy:
+  metadata:
+    id: "policy-prod-critical-001"
+    name: "Production Critical - Data Drift Emergency"
+    description: "Emergency response for data drift in Tier 1 production models"
+    priority: 1
+    tags: ["production", "critical", "data_drift", "tier1"]
+    created_by: "ml-governance-team"
+    created_at: "2026-01-26T10:00:00Z"
+    updated_at: "2026-01-26T10:00:00Z"
+  
+  condition:
+    drift_score: "> 0.25"
+    accuracy_drop: "> 15%"
+    logical_operator: "OR"
+  
+  action:
+    type: "rollback"
+    parameters:
+      rollback_to: "last_stable"
+      validate_before_deploy: true
+      canary_percentage: 1
+      canary_duration_minutes: 5
+    cost_budget: 500.00
+    timeout_seconds: 300
+  
+  governance:
+    approval_mode: "human_acknowledge"
+    required_roles: ["ml_ops", "manager"]
+    audit_trail: true
+    compliance_tags: ["soc2", "financial"]
+    retention_days: 730
+  
+  sla_impact:
+    max_downtime_minutes: 2
+    min_accuracy_after_action: 0.85
+    max_cost_increase_percent: 10
+  
+  business_context:
+    revenue_impact_score: 10
+    customer_impact_score: 9
+    brand_risk_score: 8
+    tier: "tier1_critical"
+
+---
+# enterprise_platform/policy_templates/experimental_policy.yaml
+
+policy:
+  metadata:
+    id: "policy-exp-safe-002"
+    name: "Experimental Models - Safe Learning"
+    description: "Safe exploration policy for experimental models"
+    priority: 5
+    tags: ["experimental", "learning", "safe_exploration", "tier4"]
+    created_by: "ml-research-team"
+    created_at: "2026-01-26T10:00:00Z"
+    updated_at: "2026-01-26T10:00:00Z"
+  
+  condition:
+    drift_score: "> 0.20"
+    accuracy_drop: "> 20%"
+    logical_operator: "AND"
+  
+  action:
+    type: "fallback"
+    parameters:
+      fallback_model: "rule_based_baseline"
+      notify_on_fallback: true
+    cost_budget: 50.00
+    timeout_seconds: 60
+  
+  governance:
+    approval_mode: "auto"
+    required_roles: ["data_scientist"]
+    audit_trail: true
+    compliance_tags: []
+    retention_days: 90
+  
+  sla_impact:
+    max_downtime_minutes: 5
+    min_accuracy_after_action: 0.70
+    max_cost_increase_percent: 25
+  
+  business_context:
+    revenue_impact_score: 2
+    customer_impact_score: 3
+    brand_risk_score: 2
+    tier: "tier4_experimental"
+
+---
+# enterprise_platform/policy_templates/compliance_policy.yaml
+
+policy:
+  metadata:
+    id: "policy-compliance-audit-003"
+    name: "Compliance Auditing - All Actions"
+    description: "All actions require audit trail for compliance"
+    priority: 1
+    tags: ["compliance", "audit", "hipaa", "gdpr", "all_tiers"]
+    created_by: "compliance-office"
+    created_at: "2026-01-26T10:00:00Z"
+    updated_at: "2026-01-26T10:00:00Z"
+  
+  condition:
+    drift_score: "> 0.0"
+    logical_operator: "OR"
+  
+  action:
+    type: "escalate"
+    parameters:
+      escalation_level: "compliance_team"
+      require_documentation: true
+      business_justification_required: true
+    cost_budget: 0.00  # Compliance actions have no cost limit
+    timeout_seconds: 86400  # 24 hours for compliance review
+  
+  governance:
+    approval_mode: "human_approval"
+    required_roles: ["ml_ops", "manager", "director"]
+    audit_trail: true
+    compliance_tags: ["hipaa", "gdpr", "soc2", "pci", "financial"]
+    retention_days: 3650  # 10 years for compliance
+  
+  sla_impact:
+    max_downtime_minutes: 120  # Compliance can take longer
+    min_accuracy_after_action: 0.0  # Compliance overrides performance
+    max_cost_increase_percent: 100  # Compliance has unlimited budget
+  
+  business_context:
+    revenue_impact_score: 10
+    customer_impact_score: 10
+    brand_risk_score: 10
+    tier: "tier1_critical"

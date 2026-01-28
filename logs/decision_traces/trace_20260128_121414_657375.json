@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-01-28T12:14:14.657375",
+  "incident_id": "incident_0004",
+  "state": {
+    "anomaly_rate": 0.08,
+    "drift_score": 0.1
+  },
+  "rule_action": "retrain",
+  "rule_policy": "high_data_drift",
+  "bandit_action": "fallback",
+  "bandit_confidence": 0.6,
+  "final_action": "retrain",
+  "reason": "rule-based safety (adaptive confidence below threshold)",
+  "system_version": "v0.1-safe-autonomy",
+  "test_data": true
+}

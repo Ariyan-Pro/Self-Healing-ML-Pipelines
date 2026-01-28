@@ -1,0 +1,26 @@
+
+egin{table}[ht]
+\centering
+\caption{Safety and Performance Comparison of Different Approaches}
+egin{tabular}{lcccc}
+	oprule
+	extbf{Metric} & 	extbf{Hybrid} & 	extbf{RL-only} & 	extbf{Rules-only} & 	extbf{p-value} \
+\midrule
+	extbf{Safety Metrics} & & & & \
+\quad Catastrophic Failures (\%) & 0 & 4.2 & 0 & <0.0001 \
+\quad Safety Violations (\%) & 0 & 12.7 & 0.5 & <0.0001 \
+\quad Risk Containment (\%) & 100 & 78.3 & 100 & <0.0001 \
+\midrule
+	extbf{Performance Metrics} & & & & \
+\quad MTTR (minutes) & 2.1 & 1.8 & 3.4 & 0.032 \
+\quad Cost Savings (\%) & 38.7 & 42.1 & 0 & <0.0001 \
+\quad SLA Compliance (\%) & 99.1 & 98.7 & 99.5 & 0.215 \
+\midrule
+	extbf{Learning Dynamics} & & & & \
+\quad Convergence Rate & 1.0 & 0.43 & 0.0 & <0.0001 \
+\quad Final Regret & 0.78 & 0.65 & 2.47 & <0.0001 \
+\quad Regret Variance & 0.18 & 0.31 & 0.0 & <0.0001 \
+ottomrule
+\end{tabular}
+\label{tab:results}
+\end{table}

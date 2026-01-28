@@ -1,0 +1,54 @@
+﻿tenants:
+  - tenant_id: "acme-corp"
+    name: "ACME Corporation"
+    tier: "enterprise"
+    max_pipelines: 10
+    max_models_per_pipeline: 5
+    monthly_cost_budget: 10000.00
+    max_monthly_compute_hours: 720
+    sla_targets:
+      availability: 0.999
+      mttr: 2.0
+      accuracy: 0.95
+      latency: 0.5
+    feature_flags:
+      canary_deployment: true
+      shadow_learning: true
+      auto_rollback: true
+      human_gates: true
+    compliance_requirements: ["soc2", "financial", "gdpr"]
+    data_retention_days: 365
+  - tenant_id: "startup-tech"
+    name: "Startup Tech Inc."
+    tier: "business"
+    max_pipelines: 5
+    max_models_per_pipeline: 3
+    monthly_cost_budget: 2000.00
+    max_monthly_compute_hours: 240
+    sla_targets:
+      availability: 0.99
+      mttr: 5.0
+      accuracy: 0.90
+    feature_flags:
+      canary_deployment: true
+      auto_rollback: true
+      human_gates: false
+    compliance_requirements: []
+    data_retention_days: 90
+  - tenant_id: "university-research"
+    name: "University Research Lab"
+    tier: "standard"
+    max_pipelines: 3
+    max_models_per_pipeline: 2
+    monthly_cost_budget: 500.00
+    max_monthly_compute_hours: 120
+    sla_targets:
+      availability: 0.95
+      mttr: 10.0
+      accuracy: 0.85
+    feature_flags:
+      canary_deployment: false
+      auto_rollback: false
+      human_gates: false
+    compliance_requirements: []
+    data_retention_days: 60

@@ -1,0 +1,9 @@
+{
+  "pipeline_id": "rec-pipeline-001",
+  "timestamp": "2026-01-26T15:14:07.419933",
+  "steps": [],
+  "final_decision": "rejected",
+  "executed": false,
+  "reason": "Pipeline not found",
+  "audit_trail": []
+}

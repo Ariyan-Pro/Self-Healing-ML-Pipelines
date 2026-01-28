@@ -1,0 +1,53 @@
+# Adaptive Self-Healing Action Costs
+# Cost units: 1 = standard compute unit, risk: 1-5 scale (1=low, 5=high)
+
+actions:
+  retrain:
+    compute_cost: 5.0
+    latency_cost: 3.0
+    risk_score: 3.0
+    recovery_time: 60.0
+    success_probability: 0.85
+    
+  rollback:
+    compute_cost: 1.0
+    latency_cost: 2.0
+    risk_score: 1.0
+    recovery_time: 10.0
+    success_probability: 0.95
+    
+  fallback:
+    compute_cost: 0.5
+    latency_cost: 1.0
+    risk_score: 0.5
+    recovery_time: 1.0
+    success_probability: 1.0
+
+signal_weights:
+  data_drift: 0.4
+  accuracy_drop: 0.3
+  anomaly_rate: 0.2
+  latency_increase: 0.1
+
+cost_weights:
+  compute: 0.3
+  latency: 0.25
+  risk: 0.25
+  recovery_time: 0.2
+
+learning:
+  exploration_rate: 0.1
+  learning_rate: 0.01
+  discount_factor: 0.9
+  memory_size: 1000
+  
+confidence_thresholds:
+  high_confidence: 0.8
+  medium_confidence: 0.6
+  low_confidence: 0.4
+  no_action: 0.2
+
+adaptive_windows:
+  short_term: 3600
+  medium_term: 86400
+  long_term: 604800

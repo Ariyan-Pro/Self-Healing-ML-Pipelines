@@ -1,0 +1,15 @@
+# Human Gate Configuration
+gates:
+  - name: high_risk_retrain
+    description: Require human approval for high-risk retraining
+    condition: risk_score > 0.8
+    action: retrain
+    required_approvers: 1
+    timeout_minutes: 30
+    
+  - name: budget_exceeded
+    description: Require approval when exceeding budget
+    condition: cost > budget * 0.9
+    action: any
+    required_approvers: 2
+    timeout_minutes: 60

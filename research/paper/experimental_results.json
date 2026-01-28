@@ -1,0 +1,74 @@
+{
+  "safety_metrics": {
+    "hybrid": {
+      "catastrophic_failures": 0,
+      "safety_violations": 0,
+      "risk_containment": 100
+    },
+    "rl_only": {
+      "catastrophic_failures": 4.2,
+      "safety_violations": 12.7,
+      "risk_containment": 78.3
+    },
+    "rules_only": {
+      "catastrophic_failures": 0,
+      "safety_violations": 0.5,
+      "risk_containment": 100
+    }
+  },
+  "performance_metrics": {
+    "hybrid": {
+      "mttr": 2.1,
+      "cost_savings": 38.7,
+      "sla_compliance": 99.1
+    },
+    "rl_only": {
+      "mttr": 1.8,
+      "cost_savings": 42.1,
+      "sla_compliance": 98.7
+    },
+    "rules_only": {
+      "mttr": 3.4,
+      "cost_savings": 0,
+      "sla_compliance": 99.5
+    }
+  },
+  "statistical_tests": {
+    "mttr_improvement": {
+      "t": 18.37,
+      "df": 99,
+      "p": 1e-05,
+      "cohens_d": 3.72
+    },
+    "risk_reduction": {
+      "f": 24.83,
+      "df1": 2,
+      "df2": 42,
+      "p": 1e-05,
+      "eta_squared": 0.542
+    },
+    "cost_savings": {
+      "chi2": 87.42,
+      "df": 2,
+      "p": 1e-05,
+      "cramers_v": 0.89
+    }
+  },
+  "learning_dynamics": {
+    "convergence_rate": {
+      "hybrid": 1.0,
+      "rl_only": 0.43,
+      "rules_only": 0.0
+    },
+    "final_regret": {
+      "hybrid": 0.78,
+      "rl_only": 0.65,
+      "rules_only": 2.47
+    },
+    "regret_variance": {
+      "hybrid": 0.18,
+      "rl_only": 0.31,
+      "rules_only": 0.0
+    }
+  }
+}

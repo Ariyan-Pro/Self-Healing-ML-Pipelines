@@ -1,0 +1,76 @@
+﻿pipelines:
+  - pipeline_id: "rec-pipeline-001"
+    tenant_id: "acme-corp"
+    name: "Recommendation Engine"
+    description: "Product recommendation model for e-commerce platform"
+    model_type: "classification"
+    status: "active"
+    pipeline_cost_budget: 1000.00
+    pipeline_compute_budget: 24.0
+    drift_threshold: 0.15
+    accuracy_drop_threshold: 0.10
+    anomaly_rate_threshold: 0.03
+    latency_increase_threshold: 0.15
+    sla_weights:
+      availability: 0.5
+      accuracy: 0.4
+      latency: 0.1
+    approval_required: true
+    allowed_actions: ["fallback", "rollback", "retrain"]
+    notification_channels: ["email", "slack", "pagerduty"]
+    tags: ["ecommerce", "recommendation", "tier1", "production"]
+  - pipeline_id: "fraud-detection-001"
+    tenant_id: "acme-corp"
+    name: "Fraud Detection"
+    description: "Real-time fraud detection for transactions"
+    model_type: "binary_classification"
+    status: "active"
+    pipeline_cost_budget: 1500.00
+    pipeline_compute_budget: 36.0
+    drift_threshold: 0.10
+    accuracy_drop_threshold: 0.05
+    anomaly_rate_threshold: 0.01
+    latency_increase_threshold: 0.10
+    sla_weights:
+      availability: 0.6
+      accuracy: 0.3
+      latency: 0.1
+    approval_required: true
+    allowed_actions: ["fallback", "rollback"]
+    notification_channels: ["email", "pagerduty"]
+    tags: ["fraud", "financial", "tier1", "compliance"]
+  - pipeline_id: "sentiment-analysis-001"
+    tenant_id: "startup-tech"
+    name: "Sentiment Analysis"
+    description: "Social media sentiment analysis"
+    model_type: "nlp"
+    status: "active"
+    drift_threshold: 0.20
+    accuracy_drop_threshold: 0.15
+    anomaly_rate_threshold: 0.05
+    latency_increase_threshold: 0.25
+    sla_weights:
+      accuracy: 0.6
+      latency: 0.3
+      availability: 0.1
+    approval_required: false
+    allowed_actions: ["fallback", "retrain", "no_op"]
+    notification_channels: ["slack"]
+    tags: ["nlp", "social_media", "tier2"]
+  - pipeline_id: "research-experiment-001"
+    tenant_id: "university-research"
+    name: "Research Experiment"
+    description: "Experimental model for research paper"
+    model_type: "regression"
+    status: "active"
+    drift_threshold: 0.30
+    accuracy_drop_threshold: 0.25
+    anomaly_rate_threshold: 0.10
+    latency_increase_threshold: 0.50
+    sla_weights:
+      accuracy: 0.8
+      latency: 0.2
+    approval_required: false
+    allowed_actions: ["retrain", "no_op"]
+    notification_channels: ["email"]
+    tags: ["research", "experimental", "tier4"]

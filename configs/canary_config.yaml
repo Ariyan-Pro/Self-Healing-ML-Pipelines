@@ -1,0 +1,49 @@
+﻿# configs/canary_config.yaml
+stages:
+  shadow:
+    traffic_percentage: 0.0
+    duration_hours: 24
+    success_threshold: 0.95
+    max_failures: 3
+    
+  canary_1:
+    traffic_percentage: 0.01
+    duration_hours: 12
+    success_threshold: 0.98
+    max_failures: 2
+    
+  canary_5:
+    traffic_percentage: 0.05
+    duration_hours: 6
+    success_threshold: 0.99
+    max_failures: 1
+    
+  canary_25:
+    traffic_percentage: 0.25
+    duration_hours: 4
+    success_threshold: 0.995
+    max_failures: 1
+    
+  canary_50:
+    traffic_percentage: 0.5
+    duration_hours: 2
+    success_threshold: 0.998
+    max_failures: 0
+    
+  full:
+    traffic_percentage: 1.0
+    duration_hours: 0
+    success_threshold: 1.0
+    max_failures: 0
+
+validation_checks:
+  - accuracy_not_degraded
+  - latency_within_limits
+  - no_cascading_failures
+  - cost_within_budget
+
+rollback_triggers:
+  - consecutive_failures > threshold
+  - sla_violation_detected
+  - cost_exceeded_budget
+  - manual_override

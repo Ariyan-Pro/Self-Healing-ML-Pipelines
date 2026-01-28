@@ -1,0 +1,130 @@
+﻿# enterprise_platform/policy_templates/enterprise_policy_schema.yaml
+
+version: "1.0"
+schema:
+  PolicyTemplate:
+    type: object
+    required: [metadata, condition, action, governance]
+    properties:
+      metadata:
+        type: object
+        properties:
+          id:
+            type: string
+            pattern: '^policy-[a-z0-9-]+$'
+          name:
+            type: string
+          description:
+            type: string
+          priority:
+            type: integer
+            minimum: 1
+            maximum: 10
+          tags:
+            type: array
+            items:
+              type: string
+          created_by:
+            type: string
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+      
+      condition:
+        type: object
+        properties:
+          drift_score:
+            type: string
+            pattern: '^[<>]=?\s*\d+(\.\d+)?$|^>\s*\d+(\.\d+)?$|^<\s*\d+(\.\d+)?$'
+          accuracy_drop:
+            type: string
+            pattern: '^[<>]=?\s*\d+(\.\d+)?%?$'
+          anomaly_rate:
+            type: string
+            pattern: '^[<>]=?\s*\d+(\.\d+)?%?$'
+          latency_increase:
+            type: string
+            pattern: '^[<>]=?\s*\d+(\.\d+)?%?$'
+          resource_usage:
+            type: string
+            pattern: '^[<>]=?\s*\d+(\.\d+)?%?$'
+          logical_operator:
+            type: string
+            enum: [AND, OR]
+            default: AND
+      
+      action:
+        type: object
+        properties:
+          type:
+            type: string
+            enum: [fallback, rollback, retrain, no_op, escalate]
+          parameters:
+            type: object
+            additionalProperties: true
+          cost_budget:
+            type: number
+            minimum: 0
+          timeout_seconds:
+            type: integer
+            minimum: 1
+      
+      governance:
+        type: object
+        properties:
+          approval_mode:
+            type: string
+            enum: [auto, human_acknowledge, human_approval]
+          required_roles:
+            type: array
+            items:
+              type: string
+              enum: [ml_engineer, ml_ops, data_scientist, manager, director]
+          audit_trail:
+            type: boolean
+            default: true
+          compliance_tags:
+            type: array
+            items:
+              type: string
+              enum: [hipaa, gdpr, soc2, pci, financial]
+          retention_days:
+            type: integer
+            minimum: 30
+            default: 365
+      
+      sla_impact:
+        type: object
+        properties:
+          max_downtime_minutes:
+            type: integer
+            minimum: 0
+          min_accuracy_after_action:
+            type: number
+            minimum: 0
+            maximum: 1
+          max_cost_increase_percent:
+            type: number
+            minimum: 0
+      
+      business_context:
+        type: object
+        properties:
+          revenue_impact_score:
+            type: integer
+            minimum: 1
+            maximum: 10
+          customer_impact_score:
+            type: integer
+            minimum: 1
+            maximum: 10
+          brand_risk_score:
+            type: integer
+            minimum: 1
+            maximum: 10
+          tier:
+            type: string
+            enum: [tier1_critical, tier2_important, tier3_standard, tier4_experimental]

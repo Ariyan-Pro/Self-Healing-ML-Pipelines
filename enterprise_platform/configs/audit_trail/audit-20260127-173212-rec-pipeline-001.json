@@ -1,0 +1,48 @@
+{
+  "pipeline_id": "rec-pipeline-001",
+  "timestamp": "2026-01-27T17:32:12.801726",
+  "steps": [
+    {
+      "step": "pipeline_validation",
+      "status": "completed",
+      "details": "Found pipeline in tenant acme-corp"
+    },
+    {
+      "step": "budget_check",
+      "status": "passed",
+      "details": "Budget check passed: $1000.00 remaining"
+    },
+    {
+      "step": "gate_evaluation",
+      "status": "triggered",
+      "details": "4 gate(s) triggered"
+    }
+  ],
+  "final_decision": "pending",
+  "executed": false,
+  "reason": "Waiting for human gate decisions",
+  "audit_trail": [],
+  "tenant_id": "acme-corp",
+  "gate_decisions": [
+    {
+      "gate_id": "high_risk_approval",
+      "decision": "pending_human",
+      "type": "approval_required"
+    },
+    {
+      "gate_id": "compliance_veto",
+      "decision": "pending_human",
+      "type": "veto_only"
+    },
+    {
+      "gate_id": "cost_approval",
+      "decision": "pending_human",
+      "type": "approval_required"
+    },
+    {
+      "gate_id": "retrain_acknowledgment",
+      "decision": "auto_approved",
+      "type": "acknowledgment"
+    }
+  ]
+}

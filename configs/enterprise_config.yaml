@@ -1,0 +1,19 @@
+audit_retention_days: 365
+compliance_frameworks:
+- soc2
+- gdpr
+- hipaa
+- pci
+default_tenant_tier: business
+features:
+  enterprise_metrics: true
+  executive_reporting: true
+  human_gates: true
+  multi_tenant: true
+  policy_as_code: true
+notification_channels:
+- email
+- slack
+- pagerduty
+platform_name: ML Reliability Platform
+version: '1.0'

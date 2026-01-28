@@ -1,0 +1,189 @@
+﻿version: "2.0"
+platform_name: "ML Reliability Platform - Enterprise Edition"
+description: "Enterprise platform for safe, self-healing ML pipelines"
+
+features:
+  policy_as_code: true
+  human_gates: true
+  multi_tenant: true
+  enterprise_metrics: true
+  executive_reporting: true
+  audit_trail: true
+  compliance_mode: true
+  shadow_learning: true
+  canary_deployment: true
+  auto_rollback: true
+
+tenant_tiers:
+  enterprise:
+    max_pipelines: 20
+    max_models_per_pipeline: 10
+    features: all
+    support_level: 24x7
+    sla: enterprise_sla
+  
+  business:
+    max_pipelines: 10
+    max_models_per_pipeline: 5
+    features: [policy_as_code, human_gates, multi_tenant, audit_trail]
+    support_level: business_hours
+    sla: business_sla
+  
+  standard:
+    max_pipelines: 5
+    max_models_per_pipeline: 3
+    features: [policy_as_code, multi_tenant, audit_trail]
+    support_level: email_only
+    sla: standard_sla
+  
+  trial:
+    max_pipelines: 1
+    max_models_per_pipeline: 1
+    features: [policy_as_code, audit_trail]
+    support_level: community
+    sla: none
+
+compliance_frameworks:
+  enabled:
+    - soc2
+    - gdpr
+    - hipaa
+    - pci_dss
+    - iso27001
+  
+  requirements:
+    soc2:
+      audit_trail_days: 365
+      access_logging: true
+      change_management: true
+    
+    gdpr:
+      data_retention_days: 90
+      right_to_be_forgotten: true
+      data_encryption: true
+    
+    hipaa:
+      phi_protection: true
+      access_controls: true
+      audit_logging: true
+
+notifications:
+  channels:
+    email:
+      enabled: true
+      critical_only: false
+    
+    slack:
+      enabled: true
+      channels:
+        - ml-ops-alerts
+        - ml-engineering
+    
+    pagerduty:
+      enabled: true
+      service_key: ${PAGERDUTY_KEY}
+      escalation_policy: ml-critical
+    
+    teams:
+      enabled: false
+
+cost_management:
+  default_budget_alert_threshold: 0.8
+  cost_reporting_frequency: daily
+  currency: USD
+  show_cost_to_engineers: true
+  
+  action_cost_estimates:
+    fallback: 10.00
+    rollback: 50.00
+    retrain: 200.00
+    no_op: 0.00
+
+security:
+  authentication:
+    provider: oauth2
+    required_mfa: true
+    session_timeout_minutes: 60
+  
+  authorization:
+    role_based: true
+    custom_roles_allowed: true
+  
+  encryption:
+    data_at_rest: true
+    data_in_transit: true
+    key_rotation_days: 90
+
+monitoring:
+  health_checks:
+    enabled: true
+    frequency_minutes: 5
+  
+  metrics_collection:
+    enabled: true
+    retention_days: 90
+  
+  alerting:
+    enabled: true
+    thresholds:
+      mttr_minutes: 10
+      availability_percent: 99.0
+      error_rate_percent: 1.0
+      cost_overrun_percent: 20
+
+api:
+  version: v1
+  rate_limit_requests_per_minute: 100
+  enable_swagger: true
+  require_api_key: true
+  
+  webhooks:
+    enabled: true
+    signing_secret: ${WEBHOOK_SECRET}
+    events:
+      - incident.created
+      - action.executed
+      - gate.triggered
+      - sla.violated
+
+data_retention:
+  audit_logs_days: 365
+  metrics_data_days: 90
+  model_artifacts_days: 30
+  cost_data_days: 365
+  incident_data_days: 180
+
+backup:
+  enabled: true
+  frequency: daily
+  retention_days: 30
+  include_models: true
+  include_configs: true
+
+performance:
+  max_concurrent_actions: 10
+  action_timeout_minutes: 30
+  cache_enabled: true
+  cache_ttl_minutes: 5
+
+integrations:
+  aws:
+    enabled: false
+    services: [s3, cloudwatch, lambda]
+  
+  gcp:
+    enabled: false
+    services: [storage, bigquery, ai_platform]
+  
+  azure:
+    enabled: false
+    services: [blob_storage, ml_studio]
+  
+  datadog:
+    enabled: false
+    api_key: ${DATADOG_KEY}
+  
+  new_relic:
+    enabled: false
+    license_key: ${NEW_RELIC_KEY}
+

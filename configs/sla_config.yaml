@@ -1,0 +1,18 @@
+﻿# configs/sla_config.yaml
+availability:
+  target: 0.999  # 99.9% availability
+  penalty_per_minute: 100.0  # $ per minute of downtime
+  measurement_window: 3600  # 1 hour in seconds
+
+latency:
+  p95_target_ms: 100.0
+  penalty_per_ms_over: 0.1  # $ per ms over target
+
+accuracy:
+  minimum: 0.85
+  degradation_penalty: 50.0  # $ per % point below minimum
+
+cost_limits:
+  max_retrain_cost: 500.0
+  max_rollback_cost: 200.0
+  max_fallback_cost: 100.0
