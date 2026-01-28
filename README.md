@@ -6,8 +6,6 @@
   <em>Hybrid Control Architecture for Safe Autonomous ML Operations</em>
 </p>
 
-
-
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-blue" alt="Python">
   <img src="https://img.shields.io/badge/Architecture-Hybrid%20Control-orange" alt="Architecture">
@@ -96,17 +94,19 @@ Modern ML systems fail silently in production—**data drift occurs, relationshi
 - **P-value:** < 0.05 (statistically significant)
 - **Visual Proof:** `ablation_study_visualization_*.png`
 
-### Reproducible Experiments
-```bash
-# Single command to reproduce all findings:
+**Reproducible Experiments**
+``bash
+**Single command to reproduce all findings:**
 python experiments/run_all_experiments.py
 
-# Individual validation:
+**Individual validation:**
+
 python experiments/ablation_study.py          # 200 scenarios
 python experiments/synthetic_drift.py         # Drift detection  
 python experiments/concept_shift_simulator.py # Concept shift
 python experiments/noise_injection.py         # Noise robustness
-💰 Business Impact
+
+**💰 Business Impact**
 Metric    Before    After    Improvement    Annual Value
 MTTR    4.3 hours    2.1 minutes    99.2%    $100,000+
 Manual Intervention    42 hrs/month    3.7 hrs/month    91.2%    $85,000
@@ -115,21 +115,22 @@ Model Downtime    15 hrs/month    <1 hr/month    93% reduction    $60,000
 Total Annual Savings: $189,120
 ROI: 378% | Payback Period: 3.2 months
 
-⚡ Quick Start
-bash
-# 1. Clone & install
+# ⚡ Quick Start
+
+**1. Clone & install**
 git clone https://github.com/yourusername/self-healing-ml-pipelines
 cd self-healing-ml-pipelines
 pip install -r requirements.txt
 
-# 2. Validate system
+**2. Validate system**
 python validate_production.py
 
-# 3. Run empirical proof
+**3. Run empirical proof**
 python experiments/ablation_study.py
 
-# 4. Deploy (production ready)
+**4. Deploy (production ready)**
 python deploy_to_cloud.py --provider aws  # or azure, gcp
+
 📁 Project Structure
 text
 self-healing-ml-pipelines/
@@ -140,29 +141,23 @@ self-healing-ml-pipelines/
 ├── docs/research/           # Extended abstract (NeurIPS 2026)
 ├── deployment/              # Production scripts
 └── validate_production.py   # System validation
-🎓 Research Contribution
+
+**🎓 Research Contribution**
 Extended Abstract: Hybrid Control Framework for Safe ML Autonomy
 Conference: NeurIPS 2026 (Deadline: May 15, 2026)
 Contribution: Empirical proof of Pareto optimality in safe autonomy
 Status: Submission-ready package in docs/research/
 
-📜 License
+**📜 License**
 MIT License - See LICENSE file for details.
 
-📞 Contact & Citation
-text
-@software{self_healing_ml_2026,
-  author = {Your Name},
-  title = {Self-Healing ML Pipelines: Safe Hybrid Control Architecture},
-  year = {2026},
-  version = {v0.1-safe-autonomy},
-  url = {https://github.com/yourusername/self-healing-ml-pipelines}
-}
-🚀 Status
+
+**🚀 Status**
+
 ✅ Production-ready research prototype
 ✅ All empirical claims validated
 ✅ Business case quantified
 ✅ Safety guarantees implemented
 ✅ Ready for: Production | Research | Interviews
 
-"The future of ML operations is autonomous—but only if it''s safe."
+**“All financial estimates are conservative projections based on observed reductions in MTTR, manual intervention time, and compute waste; exact savings will vary by organization.”**
