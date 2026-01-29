@@ -6,9 +6,6 @@
   <em>Hybrid Control Architecture for Safe Autonomous ML Operations</em>
 </p>
 
-<!-- BADGES SECTION -->
-<div align="center">
-
 <!-- PLATFORM BADGES -->
 [![GitHub](https://img.shields.io/badge/GitHub-Ariyan--Pro%2FSelf--Healing--ML--Pipelines-blue?logo=github)](https://github.com/Ariyan-Pro/Self-Healing-ML-Pipelines)
 [![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Live%20Demo-purple?logo=huggingface)](https://huggingface.co/spaces/Ariyan-Pro/Self-Healing-ML-Pipelines)
