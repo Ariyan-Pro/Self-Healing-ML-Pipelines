@@ -6,6 +6,16 @@
   <em>Hybrid Control Architecture for Safe Autonomous ML Operations</em>
 </p>
 
+<!-- BADGES SECTION -->
+<div align="center">
+
+<!-- PLATFORM BADGES -->
+[![GitHub](https://img.shields.io/badge/GitHub-Ariyan--Pro%2FSelf--Healing--ML--Pipelines-blue?logo=github)](https://github.com/Ariyan-Pro/Self-Healing-ML-Pipelines)
+[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Live%20Demo-purple?logo=huggingface)](https://huggingface.co/spaces/Ariyan-Pro/Self-Healing-ML-Pipelines)
+[![Kaggle Dataset](https://img.shields.io/badge/Kaggle-Dataset-yellow?logo=kaggle)](https://www.kaggle.com/datasets/ariyannadeem/self-healing-ml-pipelines)
+[![Kaggle Notebook](https://img.shields.io/badge/Kaggle-Notebook-orange?logo=kaggle)](https://www.kaggle.com/code/ariyannadeem/self-healing-ml-pipelines-demo)
+
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-blue" alt="Python">
   <img src="https://img.shields.io/badge/Architecture-Hybrid%20Control-orange" alt="Architecture">
