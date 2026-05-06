@@ -14,7 +14,7 @@ from orchestration.controller import SelfHealingController
 from healing.healing_actions import HealingActions
 from monitoring.data_drift import DataDriftDetector
 from decision_engine.policy_engine import PolicyEngine
-from utils.config_loader import load_config, PipelineConfig
+from utils.config_loader import ConfigLoader
 from loguru import logger
 
 # Configure logging
@@ -66,8 +66,9 @@ class SystemValidator:
     
     def validate_config_loader(self) -> bool:
         """Validate configuration loader."""
-        config = load_config("configs/pipeline.yaml")
-        return isinstance(config, PipelineConfig)
+        loader = ConfigLoader(config_dir=".")
+        config = loader.load_config("configs/pipeline.yaml")
+        return isinstance(config, dict)
     
     def validate_drift_detector(self) -> bool:
         """Validate drift detector."""
@@ -87,14 +88,16 @@ class SystemValidator:
         
         # Test with sample signals
         signals = {"data_drift": 0.3, "accuracy_drop": 0.15}
-        action, trace = engine.decide(signals)
+        result = engine.evaluate(signals)
+        action = result.get('action', 'no_action')
         
-        return action is not None and trace is not None
+        return action is not None
     
     def validate_healing_actions(self) -> bool:
         """Validate healing actions."""
-        config = load_config("configs/pipeline.yaml")
-        healing = HealingActions(config.model_dump())
+        loader = ConfigLoader(config_dir=".")
+        config = loader.load_config("configs/pipeline.yaml")
+        healing = HealingActions(config)
         
         # Test fallback action
         result = healing.fallback()
@@ -149,7 +152,8 @@ class SystemValidator:
         
         try:
             # Test 1: Config -> Controller
-            config = load_config("configs/pipeline.yaml")
+            loader = ConfigLoader(config_dir=".")
+            config = loader.load_config("configs/pipeline.yaml")
             controller = SelfHealingController()
             integration_tests.append(("Config->Controller", True))
             
@@ -161,7 +165,7 @@ class SystemValidator:
             # Test 3: Detection -> Decision -> Healing
             detector = DataDriftDetector()
             policy_engine = PolicyEngine()
-            healing = HealingActions(config.model_dump())
+            healing = HealingActions(config)
             integration_tests.append(("Detection->Decision->Healing", True))
             
             # Record results
