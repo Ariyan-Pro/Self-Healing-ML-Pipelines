@@ -1,21 +1,18 @@
 {
-  "version": "model_v20260506_125952",
-  "path": "models/checkpoints/model_v20260506_125952.joblib",
-  "training_date": "2026-05-06T12:59:52.292613",
+  "version": "model_v20260506_125804",
+  "path": "models/checkpoints/model_v20260506_125804.joblib",
+  "training_date": "2026-05-06T12:58:05.033281",
   "metrics": {
-    "accuracy": 0.85,
-    "f1_score": 0.847008547008547,
-    "precision": 0.8488095238095237,
-    "recall": 0.85
+    "accuracy": 0.5,
+    "f1_score": 0.46703296703296704,
+    "precision": 0.47333333333333333,
+    "recall": 0.5
   },
   "features": [
-    "feature_0",
     "feature_1",
-    "feature_2",
-    "feature_3",
-    "feature_4"
+    "feature_2"
   ],
-  "feature_count": 5,
+  "feature_count": 2,
   "sample_count": 80,
   "model_type": "RandomForestClassifier",
   "model_params": {

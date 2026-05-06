@@ -160,7 +160,30 @@ class SelfHealingController:
             
             # 2. Decision
             self.state.status = "decision"
-            action, decision_trace = self.policy_engine.decide(signals)
+            action_result = self.policy_engine.evaluate(signals)
+            action = action_result.get('action', 'no_action')
+            
+            # Create a proper decision trace for compatibility
+            from decision_engine.decision_trace import DecisionTrace
+            decision_trace = DecisionTrace()
+            decision_trace.record_state(signals)
+            decision_trace.record_final_decision(action, action_result.get('policy', 'unknown'))
+            
+            # Add set_healing_result method for compatibility
+            def set_healing_result(result):
+                decision_trace.healing_action_result = result
+            decision_trace.set_healing_result = set_healing_result
+            
+            # Add decision property alias for compatibility with explanation_builder
+            decision_trace.decision = action
+            decision_trace.severity = action_result.get('severity', 'medium')
+            decision_trace.policy_name = action_result.get('policy', 'unknown')
+            decision_trace.confidence = action_result.get('confidence', 0.5)
+            decision_trace.execution_time_ms = 0
+            decision_trace.timestamp = datetime.now()
+            decision_trace.signals = signals
+            decision_trace.metadata = {}
+            decision_trace.healing_action_result = None
             
             # 3. Healing (if needed)
             healing_result = None
@@ -247,7 +270,6 @@ class SelfHealingController:
                 "healing_actions": self.metrics["healing_actions"],
                 "avg_cycle_time_ms": avg_cycle_time
             },
-            "policy_stats": self.policy_engine.get_policy_stats(),
             "healing_counts": dict(self.state.healing_actions_count)
         }
     

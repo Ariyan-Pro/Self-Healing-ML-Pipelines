@@ -1,0 +1,282 @@
+[
+  {
+    "noise_type": "gaussian",
+    "intensity": 0.05,
+    "anomaly_rate": 0.0032,
+    "detection_time_ms": 2.325773239135742,
+    "system_state": {
+      "anomaly_rate": 0.0032,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10640000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "gaussian",
+    "intensity": 0.1,
+    "anomaly_rate": 0.0036,
+    "detection_time_ms": 1.659393310546875,
+    "system_state": {
+      "anomaly_rate": 0.0036,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.1072,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "gaussian",
+    "intensity": 0.2,
+    "anomaly_rate": 0.0044,
+    "detection_time_ms": 1.8084049224853516,
+    "system_state": {
+      "anomaly_rate": 0.0044,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10880000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "gaussian",
+    "intensity": 0.3,
+    "anomaly_rate": 0.0052,
+    "detection_time_ms": 1.60980224609375,
+    "system_state": {
+      "anomaly_rate": 0.0052,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.1104,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "missing",
+    "intensity": 0.05,
+    "anomaly_rate": 0.0031658927817644574,
+    "detection_time_ms": 8.160829544067383,
+    "system_state": {
+      "anomaly_rate": 0.0031658927817644574,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10633178556352892,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "missing",
+    "intensity": 0.1,
+    "anomaly_rate": 0.0026678523788350376,
+    "detection_time_ms": 1.7230510711669922,
+    "system_state": {
+      "anomaly_rate": 0.0026678523788350376,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10533570475767008,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "missing",
+    "intensity": 0.2,
+    "anomaly_rate": 0.0024906600249066002,
+    "detection_time_ms": 1.6906261444091797,
+    "system_state": {
+      "anomaly_rate": 0.0024906600249066002,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10498132004981321,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "missing",
+    "intensity": 0.3,
+    "anomaly_rate": 0.0028595939376608523,
+    "detection_time_ms": 1.710653305053711,
+    "system_state": {
+      "anomaly_rate": 0.0028595939376608523,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10571918787532171,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "outliers",
+    "intensity": 0.05,
+    "anomaly_rate": 0.0392,
+    "detection_time_ms": 1.6722679138183594,
+    "system_state": {
+      "anomaly_rate": 0.0392,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.1784,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "outliers",
+    "intensity": 0.1,
+    "anomaly_rate": 0.0778,
+    "detection_time_ms": 12.06207275390625,
+    "system_state": {
+      "anomaly_rate": 0.0778,
+      "drift_score": 0.20248571027533124,
+      "accuracy_drop": 0.2556,
+      "time_since_last_action": 30
+    },
+    "expected_action": "fallback",
+    "anomalies_detected": "True"
+  },
+  {
+    "noise_type": "outliers",
+    "intensity": 0.2,
+    "anomaly_rate": 0.1506,
+    "detection_time_ms": 1.5773773193359375,
+    "system_state": {
+      "anomaly_rate": 0.1506,
+      "drift_score": 0.20248571027533124,
+      "accuracy_drop": 0.4012,
+      "time_since_last_action": 30
+    },
+    "expected_action": "fallback",
+    "anomalies_detected": "True"
+  },
+  {
+    "noise_type": "outliers",
+    "intensity": 0.3,
+    "anomaly_rate": 0.2258,
+    "detection_time_ms": 1.6813278198242188,
+    "system_state": {
+      "anomaly_rate": 0.2258,
+      "drift_score": 0.20248571027533124,
+      "accuracy_drop": 0.5,
+      "time_since_last_action": 30
+    },
+    "expected_action": "fallback",
+    "anomalies_detected": "True"
+  },
+  {
+    "noise_type": "correlated",
+    "intensity": 0.05,
+    "anomaly_rate": 0.0026,
+    "detection_time_ms": 1.5320777893066406,
+    "system_state": {
+      "anomaly_rate": 0.0026,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.1052,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "correlated",
+    "intensity": 0.1,
+    "anomaly_rate": 0.0012,
+    "detection_time_ms": 1.668691635131836,
+    "system_state": {
+      "anomaly_rate": 0.0012,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.1024,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "correlated",
+    "intensity": 0.2,
+    "anomaly_rate": 0.001,
+    "detection_time_ms": 12.37177848815918,
+    "system_state": {
+      "anomaly_rate": 0.001,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10200000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "correlated",
+    "intensity": 0.3,
+    "anomaly_rate": 0.001,
+    "detection_time_ms": 1.9004344940185547,
+    "system_state": {
+      "anomaly_rate": 0.001,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10200000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "adversarial",
+    "intensity": 0.05,
+    "anomaly_rate": 0.003,
+    "detection_time_ms": 2.396821975708008,
+    "system_state": {
+      "anomaly_rate": 0.003,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10600000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "adversarial",
+    "intensity": 0.1,
+    "anomaly_rate": 0.003,
+    "detection_time_ms": 12.015819549560547,
+    "system_state": {
+      "anomaly_rate": 0.003,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10600000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "adversarial",
+    "intensity": 0.2,
+    "anomaly_rate": 0.003,
+    "detection_time_ms": 1.6818046569824219,
+    "system_state": {
+      "anomaly_rate": 0.003,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10600000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  },
+  {
+    "noise_type": "adversarial",
+    "intensity": 0.3,
+    "anomaly_rate": 0.003,
+    "detection_time_ms": 1.5680789947509766,
+    "system_state": {
+      "anomaly_rate": 0.003,
+      "drift_score": 0.05,
+      "accuracy_drop": 0.10600000000000001,
+      "time_since_last_action": 30
+    },
+    "expected_action": "none",
+    "anomalies_detected": "False"
+  }
+]

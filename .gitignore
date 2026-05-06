@@ -1,11 +1,40 @@
-```
-# Experiment results and outputs
-*.json
-*.png
+```gitignore
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Temp files
-*.tmp
+# Model checkpoints and serialized models
+models/checkpoints/
+models/current_model.joblib
+models/fallback/*.joblib
 
 # Logs
 *.log
+
+# Environment files
+.env
+.env.local
+.env.*
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
 ```
