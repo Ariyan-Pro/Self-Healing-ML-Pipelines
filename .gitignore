@@ -1,44 +1,11 @@
 ```
-# Python compiled files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Experiment results and outputs
+*.json
+*.png
 
-# Logs
-logs/
-*.log
-
-# Dependencies
-.venv/
-venv/
-env/
-
-# Environment files
-.env
-.env.local
-*.env.*
-
-# Editor/IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
+# Temp files
 *.tmp
 
-# Distribution artifacts
-*.zip
-dist/
-build/
-
-# Coverage reports
-.coverage
-coverage/
-htmlcov/
-
-# MyPy cache
-.mypy_cache/
-
-# Pytest cache
-.pytest_cache/
+# Logs
+*.log
 ```
