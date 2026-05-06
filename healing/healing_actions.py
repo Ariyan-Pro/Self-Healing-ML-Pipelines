@@ -54,10 +54,25 @@ class HealingActions:
             from sklearn.ensemble import RandomForestClassifier
             from sklearn.model_selection import train_test_split
             from sklearn.metrics import accuracy_score, f1_score
+            import numpy as np
+            
+            # Normalize labels to ensure proper format for sklearn
+            # Handle various input types: DataFrame, Series, numpy array, list
+            if isinstance(labels, pd.DataFrame):
+                # Extract single column if DataFrame
+                if labels.shape[1] == 1:
+                    labels = labels.iloc[:, 0]
+                else:
+                    raise ValueError("Labels DataFrame must have exactly one column")
+            
+            # Convert to numpy array and ensure 1D
+            labels_array = np.asarray(labels)
+            if labels_array.ndim > 1:
+                labels_array = labels_array.ravel()
             
             # Split data
             X_train, X_val, y_train, y_val = train_test_split(
-                data, labels, test_size=0.2, random_state=42
+                data, labels_array, test_size=0.2, random_state=42
             )
             
             # Train new model
