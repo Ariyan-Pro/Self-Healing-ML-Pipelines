@@ -1,0 +1,112 @@
+[
+  {
+    "drift_type": "covariate",
+    "severity": 0.2,
+    "drift_detected": false,
+    "drift_score": 0.10560412929397583,
+    "decision": {
+      "action": "retrain",
+      "policy": "mock_policy",
+      "confidence": 0.9509580539189414
+    },
+    "healing_result": {
+      "status": "success",
+      "action": "retrain",
+      "execution_time": 0.01,
+      "details": "Mock retrain executed"
+    },
+    "timings": {
+      "detection_ms": 0.03457069396972656,
+      "decision_ms": 0.10418891906738281,
+      "healing_ms": 10.145187377929688
+    }
+  },
+  {
+    "drift_type": "covariate",
+    "severity": 0.4,
+    "drift_detected": true,
+    "drift_score": 0.29313392159663404,
+    "decision": {
+      "action": "retrain",
+      "policy": "mock_policy",
+      "confidence": 0.6341891826385739
+    },
+    "healing_result": {
+      "status": "success",
+      "action": "retrain",
+      "execution_time": 0.01,
+      "details": "Mock retrain executed"
+    },
+    "timings": {
+      "detection_ms": 0.03170967102050781,
+      "decision_ms": 0.11420249938964844,
+      "healing_ms": 10.120868682861328
+    }
+  },
+  {
+    "drift_type": "concept",
+    "severity": 0.3,
+    "drift_detected": true,
+    "drift_score": 0.04732719019681958,
+    "decision": {
+      "action": "none",
+      "policy": "mock_policy",
+      "confidence": 0.9957002707760678
+    },
+    "healing_result": {
+      "status": "success",
+      "action": "none",
+      "execution_time": 0.01,
+      "details": "Mock none executed"
+    },
+    "timings": {
+      "detection_ms": 0.025272369384765625,
+      "decision_ms": 0.087738037109375,
+      "healing_ms": 10.10584831237793
+    }
+  },
+  {
+    "drift_type": "gradual",
+    "severity": 0.25,
+    "drift_detected": true,
+    "drift_score": 0.4343663983289918,
+    "decision": {
+      "action": "retrain",
+      "policy": "mock_policy",
+      "confidence": 0.5148089291088871
+    },
+    "healing_result": {
+      "status": "success",
+      "action": "retrain",
+      "execution_time": 0.01,
+      "details": "Mock retrain executed"
+    },
+    "timings": {
+      "detection_ms": 0.03814697265625,
+      "decision_ms": 0.13256072998046875,
+      "healing_ms": 10.098695755004883
+    }
+  },
+  {
+    "drift_type": "covariate",
+    "severity": 0.1,
+    "drift_detected": false,
+    "drift_score": 0.2575935538956713,
+    "decision": {
+      "action": "rollback",
+      "policy": "mock_policy",
+      "confidence": 0.6936260074228412
+    },
+    "healing_result": {
+      "status": "success",
+      "action": "rollback",
+      "execution_time": 0.01,
+      "details": "Mock rollback executed"
+    },
+    "timings": {
+      "detection_ms": 0.024318695068359375,
+      "decision_ms": 0.08058547973632812,
+      "healing_ms": 10.146856307983398
+    }
+  }
+]

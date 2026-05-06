@@ -1,3 +1,10 @@
+--- .gitignore (原始)
+```
+# Model registry files
+models/registry/
+```
+
++++ .gitignore (修改后)
 # Compiled and build artifacts
 *.pyc
 __pycache__/
