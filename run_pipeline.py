@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from orchestration.controller import SelfHealingController
 from pipelines.train import TrainingPipeline
 from pipelines.inference import InferencePipeline
-from utils.config_loader import load_config
+from utils.config_loader import ConfigLoader
 from loguru import logger
 
 # Configure logging
@@ -47,8 +47,9 @@ def main():
     
     # 1. Load configuration
     logger.info("Step 1: Loading configuration")
-    config = load_config("configs/pipeline.yaml")
-    logger.info(f"Configuration loaded: model={config.model.name}")
+    config_loader = ConfigLoader()
+    config = config_loader.load_config("pipeline.yaml")
+    logger.info(f"Configuration loaded: model={config.get('model', {}).get('name', 'unknown')}")
     
     # 2. Generate sample data
     logger.info("Step 2: Generating sample data")

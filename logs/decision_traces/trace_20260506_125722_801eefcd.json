@@ -1,0 +1,16 @@
+{
+  "trace_id": "801eefcd-3066-4a7d-bfd0-f17490d48358",
+  "incident_id": "test_validation",
+  "timestamp": "2026-05-06T12:57:22.702084",
+  "state": {
+    "drift_score": 0.25,
+    "accuracy_drop": 0.1
+  },
+  "rule_action": "retrain",
+  "bandit_action": "fallback",
+  "bandit_confidence": 0.7,
+  "final_action": "retrain",
+  "reason": "high drift detected",
+  "cooldown_triggered": false,
+  "system_version": "v0.1-safe-autonomy"
+}
