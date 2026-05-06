@@ -144,6 +144,8 @@ class NoiseInjectionExperiment:
         
         # Generate summary
         self._generate_summary()
+        
+        return self.results
     
     def _generate_summary(self):
         """Generate comprehensive summary report"""

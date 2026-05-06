@@ -225,7 +225,8 @@ class ConceptShiftSimulator:
             'detection_rate': len(detected)/len(self.results) if self.results else 0,
             'avg_accuracy_drop': avg_accuracy_drop if detected else 0,
             'avg_drift_score': avg_drift_score if detected else 0,
-            'output_file': output_file
+            'output_file': output_file,
+            'results': self.results
         }
 
 def main():

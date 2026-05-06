@@ -28,7 +28,8 @@ from noise_injection import NoiseInjectionExperiment
 class ComprehensiveExperimentRunner:
     """Runs all experiments and generates unified report"""
     
-    def __init__(self):
+    def __init__(self, seed=42):
+        self.seed = seed
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.results_dir = f"experiment_results_{self.timestamp}"
         os.makedirs(self.results_dir, exist_ok=True)
@@ -85,6 +86,7 @@ class ComprehensiveExperimentRunner:
             print(f"❌ Error during concept shift experiments: {e}")
             print("⚠️  Skipping concept shift experiments...")
             return {'error': str(e), 'status': 'failed', 'experiment': 'concept_shift'}
+    
     def run_noise_injection(self):
         """Run noise injection experiments"""
         print("\n" + "="*70)
@@ -128,9 +130,12 @@ class ComprehensiveExperimentRunner:
             print(f"\n{'='*60}")
             print(f"🧪 SYNTHETIC DRIFT EXPERIMENTS")
             print(f"{'='*60}")
-            drift_results = self.run_synthetic_drift()
+            drift_results_list = self.run_synthetic_drift()
+            # run_all_scenarios returns a list of results, wrap it properly
+            drift_results = {'results': drift_results_list, 'status': 'completed'} if isinstance(drift_results_list, list) else drift_results_list
             all_results['synthetic_drift'] = drift_results
-            print(f"✅ Synthetic drift experiments completed in {drift_results.get('total_time', 0):.2f}s")
+            total_time = sum(r.get('timings', {}).get('detection_ms', 0) + r.get('timings', {}).get('decision_ms', 0) + r.get('timings', {}).get('healing_ms', 0) for r in drift_results_list) / 1000 if isinstance(drift_results_list, list) else drift_results.get('total_time', 0)
+            print(f"✅ Synthetic drift experiments completed in {total_time:.2f}s")
         except Exception as e:
             print(f"❌ Synthetic drift experiments failed: {e}")
             all_results['synthetic_drift'] = {'error': str(e), 'status': 'failed'}
@@ -140,7 +145,12 @@ class ComprehensiveExperimentRunner:
             print(f"\n{'='*60}")
             print(f"🧪 CONCEPT SHIFT EXPERIMENTS")
             print(f"{'='*60}")
-            concept_results = self.run_concept_shift()
+            concept_results_raw = self.run_concept_shift()
+            # run_comprehensive_test returns a dict summary, wrap it properly if needed
+            if isinstance(concept_results_raw, dict) and 'results' not in concept_results_raw:
+                concept_results = {'results': [], 'summary': concept_results_raw, 'status': 'completed'}
+            else:
+                concept_results = concept_results_raw if isinstance(concept_results_raw, dict) else {'error': 'Unexpected result format', 'status': 'failed'}
             all_results['concept_shift'] = concept_results
             print(f"✅ Concept shift experiments completed")
         except Exception as e:
@@ -152,7 +162,14 @@ class ComprehensiveExperimentRunner:
             print(f"\n{'='*60}")
             print(f"🧪 NOISE INJECTION EXPERIMENTS")
             print(f"{'='*60}")
-            noise_results = self.run_noise_injection()
+            noise_results_list = self.run_noise_injection()
+            # run_all_scenarios returns a list of results
+            if isinstance(noise_results_list, list):
+                noise_results = {'results': noise_results_list, 'status': 'completed'}
+            elif isinstance(noise_results_list, dict):
+                noise_results = noise_results_list
+            else:
+                noise_results = {'status': 'completed', 'results': []}
             all_results['noise_injection'] = noise_results
             print(f"✅ Noise injection experiments completed")
         except Exception as e:
@@ -163,13 +180,14 @@ class ComprehensiveExperimentRunner:
         final_results = self.generate_summary_report(all_results)
         
         return final_results
+    
     def generate_summary_report(self, results=None):
         """Generate comprehensive experiment summary report"""
         from datetime import datetime
         import json
         
         if results is None:
-            results = self.results
+            results = self.all_results
         
         print("\n" + "="*60)
         print("📋 COMPREHENSIVE EXPERIMENT SUMMARY")

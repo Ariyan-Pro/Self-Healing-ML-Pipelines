@@ -1,40 +1,13 @@
-```gitignore
-# Python cache files
+```
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Model checkpoints and serialized models
-models/checkpoints/
-models/current_model.joblib
-models/fallback/*.joblib
-
-# Logs
-*.log
-
-# Environment files
-.env
-.env.local
-.env.*
-
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# IDE specific
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS specific
-.DS_Store
-Thumbs.db
-
-# Build artifacts
-dist/
-build/
-*.egg-info/
+# Experiments - auto-generated results
+experiments/comprehensive_experiment_summary_*.json
+experiments/concept_shift_results_*.json
+experiments/experiment_results_*.json
+experiments/noise_injection_results_*.json
 ```
