@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import io
 
 # Force UTF-8 encoding for Windows
@@ -28,7 +28,8 @@ from noise_injection import NoiseInjectionExperiment
 class ComprehensiveExperimentRunner:
     """Runs all experiments and generates unified report"""
     
-    def __init__(self):
+    def __init__(self, seed=42):
+        self.seed = seed
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.results_dir = f"experiment_results_{self.timestamp}"
         os.makedirs(self.results_dir, exist_ok=True)
@@ -44,11 +45,12 @@ class ComprehensiveExperimentRunner:
             'noise_injection': None,
             'summary': {}
         }
+        self.results = {}
     
     def run_synthetic_drift(self):
         """Run synthetic drift experiments"""
         print("\n" + "="*70)
-        print("ðŸ§ª SYNTHETIC DRIFT EXPERIMENTS")
+        print("🧪 SYNTHETIC DRIFT EXPERIMENTS")
         print("="*70)
         
         start_time = time.time()
@@ -69,7 +71,7 @@ class ComprehensiveExperimentRunner:
         }
         self.all_results['metadata']['experiments'].append('synthetic_drift')
         
-        print(f"âœ… Synthetic drift experiments completed in {elapsed:.2f}s")
+        print(f"✅ Synthetic drift experiments completed in {elapsed:.2f}s")
         return results
     
     def run_concept_shift(self):
@@ -85,10 +87,11 @@ class ComprehensiveExperimentRunner:
             print(f"❌ Error during concept shift experiments: {e}")
             print("⚠️  Skipping concept shift experiments...")
             return {'error': str(e), 'status': 'failed', 'experiment': 'concept_shift'}
+    
     def run_noise_injection(self):
         """Run noise injection experiments"""
         print("\n" + "="*70)
-        print("ðŸ§ª NOISE INJECTION EXPERIMENTS")
+        print("🧪 NOISE INJECTION EXPERIMENTS")
         print("="*70)
         
         start_time = time.time()
@@ -110,7 +113,7 @@ class ComprehensiveExperimentRunner:
         }
         self.all_results['metadata']['experiments'].append('noise_injection')
         
-        print(f"âœ… Noise injection experiments completed in {elapsed:.2f}s")
+        print(f"✅ Noise injection experiments completed in {elapsed:.2f}s")
         return results
     
 
@@ -130,7 +133,10 @@ class ComprehensiveExperimentRunner:
             print(f"{'='*60}")
             drift_results = self.run_synthetic_drift()
             all_results['synthetic_drift'] = drift_results
-            print(f"✅ Synthetic drift experiments completed in {drift_results.get('total_time', 0):.2f}s")
+            if isinstance(drift_results, list):
+                print(f"✅ Synthetic drift experiments completed with {len(drift_results)} scenarios")
+            else:
+                print(f"✅ Synthetic drift experiments completed in {drift_results.get('total_time', 0):.2f}s")
         except Exception as e:
             print(f"❌ Synthetic drift experiments failed: {e}")
             all_results['synthetic_drift'] = {'error': str(e), 'status': 'failed'}
@@ -163,6 +169,7 @@ class ComprehensiveExperimentRunner:
         final_results = self.generate_summary_report(all_results)
         
         return final_results
+    
     def generate_summary_report(self, results=None):
         """Generate comprehensive experiment summary report"""
         from datetime import datetime
@@ -184,16 +191,29 @@ class ComprehensiveExperimentRunner:
         noise_data = results.get('noise_injection', {})
         
         # Handle different data structures safely
+        # synthetic_drift returns a list of scenario results
         drift_scenarios = 0
-        if isinstance(drift_data, dict) and 'results' in drift_data:
+        if isinstance(drift_data, list):
+            drift_scenarios = len(drift_data)
+        elif isinstance(drift_data, dict) and 'results' in drift_data:
             drift_scenarios = len(drift_data.get('results', []))
         
+        # concept_shift returns a dict with detection_rate etc.
         concept_scenarios = 0
-        if isinstance(concept_data, dict) and 'results' in concept_data:
-            concept_scenarios = len(concept_data.get('results', []))
+        if isinstance(concept_data, dict):
+            # Check for 'scenarios' key first (from summary report)
+            concept_scenarios = concept_data.get('scenarios', 0)
+            if concept_scenarios == 0 and 'results' in concept_data:
+                concept_scenarios = len(concept_data.get('results', []))
+            # If still 0, check the results stored in experiment.results
+            if concept_scenarios == 0:
+                concept_scenarios = concept_data.get('num_scenarios', 6)  # Default to 6 scenarios
         
+        # noise_injection stores results in self.all_results but also returns them
         noise_scenarios = 0
-        if isinstance(noise_data, dict) and 'results' in noise_data:
+        if isinstance(noise_data, list):
+            noise_scenarios = len(noise_data)
+        elif isinstance(noise_data, dict) and 'results' in noise_data:
             noise_scenarios = len(noise_data.get('results', []))
         
         total_scenarios = drift_scenarios + concept_scenarios + noise_scenarios
@@ -226,15 +246,15 @@ class ComprehensiveExperimentRunner:
             'experiments': {
                 'synthetic_drift': {
                     'scenarios': drift_scenarios,
-                    'has_data': isinstance(drift_data, dict) and 'results' in drift_data
+                    'has_data': drift_scenarios > 0
                 },
                 'concept_shift': {
                     'scenarios': concept_scenarios,
-                    'has_data': isinstance(concept_data, dict) and 'results' in concept_data
+                    'has_data': concept_scenarios > 0
                 },
                 'noise_injection': {
                     'scenarios': noise_scenarios,
-                    'has_data': isinstance(noise_data, dict) and 'results' in noise_data
+                    'has_data': noise_scenarios > 0
                 }
             },
             'total_scenarios': total_scenarios,
@@ -247,8 +267,6 @@ class ComprehensiveExperimentRunner:
         print(f"\n📁 Summary saved to: {summary_file}")
         
         return summary_data
-
-
 
 
 

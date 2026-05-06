@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-05-06T13:07:09.981133",
+  "scenarios": 6,
+  "detected": 4,
+  "results": [
+    {
+      "shift_type": "abrupt",
+      "magnitude": 0.1,
+      "training_time_ms": 3.6911964416503906,
+      "evaluation_time_ms": 15.043258666992188,
+      "accuracy_original": 0.8766666666666667,
+      "accuracy_shifted": 0.7933333333333333,
+      "accuracy_drop": 0.08333333333333337,
+      "drift_score": 0.0,
+      "shift_detected": false
+    },
+    {
+      "shift_type": "abrupt",
+      "magnitude": 0.3,
+      "training_time_ms": 18.858909606933594,
+      "evaluation_time_ms": 1.53350830078125,
+      "accuracy_original": 0.8666666666666667,
+      "accuracy_shifted": 0.3233333333333333,
+      "accuracy_drop": 0.5433333333333334,
+      "drift_score": 0.0,
+      "shift_detected": true
+    },
+    {
+      "shift_type": "abrupt",
+      "magnitude": 0.5,
+      "training_time_ms": 20.026445388793945,
+      "evaluation_time_ms": 1.5189647674560547,
+      "accuracy_original": 0.85,
+      "accuracy_shifted": 0.5433333333333333,
+      "accuracy_drop": 0.30666666666666664,
+      "drift_score": 0.0,
+      "shift_detected": true
+    },
+    {
+      "shift_type": "gradual",
+      "magnitude": 0.2,
+      "training_time_ms": 16.16191864013672,
+      "evaluation_time_ms": 1.5239715576171875,
+      "accuracy_original": 0.8633333333333333,
+      "accuracy_shifted": 0.72,
+      "accuracy_drop": 0.1433333333333333,
+      "drift_score": 0.0,
+      "shift_detected": true
+    },
+    {
+      "shift_type": "gradual",
+      "magnitude": 0.4,
+      "training_time_ms": 20.29561996459961,
+      "evaluation_time_ms": 1.600027084350586,
+      "accuracy_original": 0.8633333333333333,
+      "accuracy_shifted": 0.5733333333333334,
+      "accuracy_drop": 0.2899999999999999,
+      "drift_score": 0.0,
+      "shift_detected": true
+    },
+    {
+      "shift_type": "recurring",
+      "magnitude": 0.3,
+      "training_time_ms": 20.05743980407715,
+      "evaluation_time_ms": 18.83673667907715,
+      "accuracy_original": 0.8933333333333333,
+      "accuracy_shifted": 0.8433333333333334,
+      "accuracy_drop": 0.04999999999999993,
+      "drift_score": 0.0,
+      "shift_detected": false
+    }
+  ],
+  "summary": {
+    "detection_rate": 0.6666666666666666,
+    "avg_accuracy_drop": 0.3208333333333333,
+    "avg_drift_score": 0.0
+  }
+}

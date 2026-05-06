@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-05-06T13:06:02.725201",
+  "experiments": {
+    "synthetic_drift": {
+      "scenarios": 0,
+      "has_data": false
+    },
+    "concept_shift": {
+      "scenarios": 0,
+      "has_data": false
+    },
+    "noise_injection": {
+      "scenarios": 0,
+      "has_data": false
+    }
+  },
+  "total_scenarios": 0,
+  "errors": [
+    "synthetic_drift: 'list' object has no attribute 'get'"
+  ]
+}

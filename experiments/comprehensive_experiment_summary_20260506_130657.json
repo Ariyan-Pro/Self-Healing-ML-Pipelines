@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-05-06T13:06:57.065026",
+  "experiments": {
+    "synthetic_drift": {
+      "scenarios": 5,
+      "has_data": true
+    },
+    "concept_shift": {
+      "scenarios": 0,
+      "has_data": false
+    },
+    "noise_injection": {
+      "scenarios": 20,
+      "has_data": true
+    }
+  },
+  "total_scenarios": 25,
+  "errors": []
+}

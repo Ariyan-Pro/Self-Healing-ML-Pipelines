@@ -1,0 +1,296 @@
+{
+  "timestamp": "2026-05-06T13:06:57.063669",
+  "scenarios": 20,
+  "detected": 3,
+  "results": [
+    {
+      "noise_type": "gaussian",
+      "intensity": 0.05,
+      "anomaly_rate": 0.0032,
+      "detection_time_ms": 20.91193199157715,
+      "system_state": {
+        "anomaly_rate": 0.0032,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10640000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "gaussian",
+      "intensity": 0.1,
+      "anomaly_rate": 0.0036,
+      "detection_time_ms": 3.4842491149902344,
+      "system_state": {
+        "anomaly_rate": 0.0036,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.1072,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "gaussian",
+      "intensity": 0.2,
+      "anomaly_rate": 0.0044,
+      "detection_time_ms": 34.83772277832031,
+      "system_state": {
+        "anomaly_rate": 0.0044,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10880000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "gaussian",
+      "intensity": 0.3,
+      "anomaly_rate": 0.0052,
+      "detection_time_ms": 38.75255584716797,
+      "system_state": {
+        "anomaly_rate": 0.0052,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.1104,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "missing",
+      "intensity": 0.05,
+      "anomaly_rate": 0.0031658927817644574,
+      "detection_time_ms": 3.799915313720703,
+      "system_state": {
+        "anomaly_rate": 0.0031658927817644574,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10633178556352892,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "missing",
+      "intensity": 0.1,
+      "anomaly_rate": 0.0026678523788350376,
+      "detection_time_ms": 15.812397003173828,
+      "system_state": {
+        "anomaly_rate": 0.0026678523788350376,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10533570475767008,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "missing",
+      "intensity": 0.2,
+      "anomaly_rate": 0.0024906600249066002,
+      "detection_time_ms": 3.5858154296875,
+      "system_state": {
+        "anomaly_rate": 0.0024906600249066002,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10498132004981321,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "missing",
+      "intensity": 0.3,
+      "anomaly_rate": 0.0028595939376608523,
+      "detection_time_ms": 3.4406185150146484,
+      "system_state": {
+        "anomaly_rate": 0.0028595939376608523,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10571918787532171,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "outliers",
+      "intensity": 0.05,
+      "anomaly_rate": 0.0392,
+      "detection_time_ms": 3.664255142211914,
+      "system_state": {
+        "anomaly_rate": 0.0392,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.1784,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "outliers",
+      "intensity": 0.1,
+      "anomaly_rate": 0.0778,
+      "detection_time_ms": 3.3211708068847656,
+      "system_state": {
+        "anomaly_rate": 0.0778,
+        "drift_score": 0.20248571027533124,
+        "accuracy_drop": 0.2556,
+        "time_since_last_action": 30
+      },
+      "expected_action": "fallback",
+      "anomalies_detected": "True"
+    },
+    {
+      "noise_type": "outliers",
+      "intensity": 0.2,
+      "anomaly_rate": 0.1506,
+      "detection_time_ms": 13.997793197631836,
+      "system_state": {
+        "anomaly_rate": 0.1506,
+        "drift_score": 0.20248571027533124,
+        "accuracy_drop": 0.4012,
+        "time_since_last_action": 30
+      },
+      "expected_action": "fallback",
+      "anomalies_detected": "True"
+    },
+    {
+      "noise_type": "outliers",
+      "intensity": 0.3,
+      "anomaly_rate": 0.2258,
+      "detection_time_ms": 3.4198760986328125,
+      "system_state": {
+        "anomaly_rate": 0.2258,
+        "drift_score": 0.20248571027533124,
+        "accuracy_drop": 0.5,
+        "time_since_last_action": 30
+      },
+      "expected_action": "fallback",
+      "anomalies_detected": "True"
+    },
+    {
+      "noise_type": "correlated",
+      "intensity": 0.05,
+      "anomaly_rate": 0.0026,
+      "detection_time_ms": 13.664484024047852,
+      "system_state": {
+        "anomaly_rate": 0.0026,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.1052,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "correlated",
+      "intensity": 0.1,
+      "anomaly_rate": 0.0012,
+      "detection_time_ms": 3.309488296508789,
+      "system_state": {
+        "anomaly_rate": 0.0012,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.1024,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "correlated",
+      "intensity": 0.2,
+      "anomaly_rate": 0.001,
+      "detection_time_ms": 3.3049583435058594,
+      "system_state": {
+        "anomaly_rate": 0.001,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10200000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "correlated",
+      "intensity": 0.3,
+      "anomaly_rate": 0.001,
+      "detection_time_ms": 3.5347938537597656,
+      "system_state": {
+        "anomaly_rate": 0.001,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10200000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "adversarial",
+      "intensity": 0.05,
+      "anomaly_rate": 0.003,
+      "detection_time_ms": 3.322601318359375,
+      "system_state": {
+        "anomaly_rate": 0.003,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10600000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "adversarial",
+      "intensity": 0.1,
+      "anomaly_rate": 0.003,
+      "detection_time_ms": 13.815879821777344,
+      "system_state": {
+        "anomaly_rate": 0.003,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10600000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "adversarial",
+      "intensity": 0.2,
+      "anomaly_rate": 0.003,
+      "detection_time_ms": 3.4782886505126953,
+      "system_state": {
+        "anomaly_rate": 0.003,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10600000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    },
+    {
+      "noise_type": "adversarial",
+      "intensity": 0.3,
+      "anomaly_rate": 0.003,
+      "detection_time_ms": 13.092756271362305,
+      "system_state": {
+        "anomaly_rate": 0.003,
+        "drift_score": 0.05,
+        "accuracy_drop": 0.10600000000000001,
+        "time_since_last_action": 30
+      },
+      "expected_action": "none",
+      "anomalies_detected": "False"
+    }
+  ],
+  "summary": {
+    "detection_rate": 0.15,
+    "avg_detection_time_ms": 6.912946701049805,
+    "avg_anomaly_rate": 0.1514,
+    "action_distribution": {
+      "none": 17,
+      "fallback": 3
+    }
+  }
+}
