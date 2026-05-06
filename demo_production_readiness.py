@@ -22,8 +22,9 @@ def demonstrate_production_readiness():
     experiences_path = Path("adaptive/memory/experiences.json")
     if experiences_path.exists():
         with open(experiences_path, 'r') as f:
-            experiences = json.load(f)
+            data = json.load(f)
         
+        experiences = data.get("experiences", []) if isinstance(data, dict) else data
         print(f"• Learning Experiences: {len(experiences)}")
         print(f"• Latest Experience: {experiences[-1] if experiences else 'None'}")
     
