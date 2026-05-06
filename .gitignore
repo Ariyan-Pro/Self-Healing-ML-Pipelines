@@ -1,59 +1,32 @@
 --- .gitignore (原始)
 ```
-# Model registry files
-models/registry/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Experiments - auto-generated results
+experiments/comprehensive_experiment_summary_*.json
+experiments/concept_shift_results_*.json
+experiments/experiment_results_*.json
+experiments/noise_injection_results_*.json
 ```
 
 +++ .gitignore (修改后)
-# Compiled and build artifacts
-*.pyc
+```
+# Compiled Python files
 __pycache__/
-*.o
-*.obj
-*.class
-*.exe
-*.dll
-*.so
-*.a
-*.out
-dist/
-build/
-target/
+*.pyc
+*.pyo
 
-# Dependencies
-.venv/
-venv/
-.env
-.env.local
-*.env.*
+# Model files and checkpoints
+models/checkpoints/
+models/current_model.joblib
+models/fallback/
+models/registry/
 
-# Logs and temp files
+# Logs
 *.log
-*.tmp
-*.swp
-*.swo
-
-# Editors and IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# System files
-.DS_Store
-Thumbs.db
-
-# Coverage and testing
-.coverage
-coverage/
-htmlcov/
-
-# Python specific
-.mypy_cache/
-.pytest_cache/
-
-# Node.js specific
-node_modules/
-
-# Java/Gradle specific
-.gradle/
+logs/
+```
