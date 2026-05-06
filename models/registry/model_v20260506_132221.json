@@ -1,0 +1,12 @@
+{
+  "version": "model_v20260506_132221",
+  "path": "models/checkpoints/model_v20260506_132221.joblib",
+  "accuracy": 1.0,
+  "f1_score": 1.0,
+  "training_date": "2026-05-06T13:22:21.666876",
+  "sample_count": 100,
+  "features": [
+    "a",
+    "b"
+  ]
+}
