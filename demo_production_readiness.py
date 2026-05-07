@@ -71,7 +71,7 @@ def demonstrate_production_readiness():
     print("Estimated business value in production:")
     for action in actions:
         value = calculate_potential_business_value(action)
-        print(f"  • {action}: \ per successful execution")
+        print(f"  • {action}: ${value:.2f} per successful execution")
     
     print("\n" + "=" * 70)
     print("✅ SYSTEM IS PRODUCTION-READY")
