@@ -10,11 +10,11 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 
-# Import platform components
-from human_gates.gate_system import HumanGateSystem, GateType, GateStatus
-from multi_tenant.platform_controller import MultiTenantPlatform, TenantConfig, PipelineConfig
-from enterprise_metrics.metrics_system import EnterpriseMetricsSystem
-from enterprise_metrics.executive_dashboard import ExecutiveDashboard
+# Import platform components (using relative imports for enterprise_platform submodules)
+from enterprise_platform.human_gates.gate_system import HumanGateSystem, GateType, GateStatus
+from enterprise_platform.multi_tenant.platform_controller import MultiTenantPlatform, TenantConfig, PipelineConfig
+from enterprise_platform.enterprise_metrics.metrics_system import EnterpriseMetricsSystem
+from enterprise_platform.enterprise_metrics.executive_dashboard import ExecutiveDashboard
 
 
 class EnterpriseMLPlatform:
