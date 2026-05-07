@@ -230,9 +230,13 @@ class HumanVetoHandler(BaseHTTPRequestHandler):
         path = parsed.path
         query = parse_qs(parsed.query)
         
-        if path == '/' or path == '/index.html':
+        if path == '/dashboard' or path == '/dashboard/':
             # Serve the Human Veto Dashboard UI
             self.serve_dashboard()
+        
+        elif path == '/' or path == '/index.html':
+            # Serve the main landing page
+            self.serve_landing_page()
         
         elif path == '/api/v1/human-veto' or path == '/api/v1/human-veto/':
             # List pending vetoes
@@ -273,6 +277,35 @@ class HumanVetoHandler(BaseHTTPRequestHandler):
         else:
             self.send_error_response('Not found', 404)
     
+    def serve_landing_page(self):
+        """Serve the main landing page HTML."""
+        landing_path = Path(__file__).parent.parent / 'index.html'
+        if landing_path.exists():
+            try:
+                with open(landing_path, 'r') as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(content.encode())
+            except Exception as e:
+                self.send_error_response(f'Error loading landing page: {e}', 500)
+        else:
+            self.send_json_response({
+                'message': 'Self-Healing ML Pipelines API is running',
+                'landing_page': 'Available at /',
+                'dashboard': 'Available at /dashboard',
+                'endpoints': {
+                    'list': 'GET /api/v1/human-veto',
+                    'create': 'POST /api/v1/human-veto',
+                    'update': 'PUT /api/v1/human-veto/<id>',
+                    'delete': 'DELETE /api/v1/human-veto/<id>',
+                    'history': 'GET /api/v1/human-veto/history',
+                    'health': 'GET /health'
+                }
+            })
+    
     def serve_dashboard(self):
         """Serve the Human Veto Dashboard HTML page."""
         dashboard_path = Path(__file__).parent / 'veto_dashboard.html'
@@ -289,7 +322,7 @@ class HumanVetoHandler(BaseHTTPRequestHandler):
                 self.send_error_response(f'Error loading dashboard: {e}', 500)
         else:
             self.send_json_response({
-                'message': 'Human Veto API is running',
+                'message': 'Dashboard not found. Please create veto_dashboard.html',
                 'endpoints': {
                     'list': 'GET /api/v1/human-veto',
                     'create': 'POST /api/v1/human-veto',

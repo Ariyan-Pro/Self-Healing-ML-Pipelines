@@ -1,0 +1,30 @@
+[
+  {
+    "id": "02b531ca-ca61-495c-a353-c74767870071",
+    "action_id": "test-action-001",
+    "action_type": "model_rollback",
+    "reason": "Testing veto functionality",
+    "priority": "high",
+    "metadata": {},
+    "status": "approved",
+    "created_at": "2026-05-07T06:48:35.331591",
+    "updated_at": "2026-05-07T06:48:45.853620",
+    "decision_by": "test-operator",
+    "decision_at": "2026-05-07T06:48:45.853602",
+    "notes": "Test approval"
+  },
+  {
+    "id": "fbabfc64-9d72-4d8c-8da3-8bb0592870be",
+    "action_id": "final-test",
+    "action_type": "config_change",
+    "reason": "Final verification",
+    "priority": "normal",
+    "metadata": {},
+    "status": "pending",
+    "created_at": "2026-05-07T06:49:43.484224",
+    "updated_at": "2026-05-07T06:49:43.484224",
+    "decision_by": null,
+    "decision_at": null,
+    "notes": null
+  }
+]

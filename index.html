@@ -101,6 +101,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
@@ -113,6 +114,21 @@
 
         .nav-links a:hover {
             color: var(--text-primary);
+        }
+
+        .nav-dashboard-btn {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--accent-green), #1e7b34);
+            border-radius: 8px;
+            color: white !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .nav-dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         }
 
         /* Hero Section */
@@ -767,6 +783,7 @@
                 <li><a href="#business">Business Impact</a></li>
                 <li><a href="#safety">Safety</a></li>
                 <li><a href="#research">Research</a></li>
+                <li><a href="/dashboard" class="nav-dashboard-btn" title="Access Human Veto Dashboard">🎛️ Dashboard</a></li>
             </ul>
         </div>
     </nav>
