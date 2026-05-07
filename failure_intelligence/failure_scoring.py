@@ -88,7 +88,69 @@ class FragilityIndex:
     
     def __init__(self):
         self.stress_scenarios = self._define_stress_scenarios()
+    
+    def _define_stress_scenarios(self) -> list:
+        """Define stress test scenarios."""
+        return [
+            {'name': 'data_drift', 'severity': 0.5},
+            {'name': 'concept_drift', 'severity': 0.7},
+            {'name': 'load_spike', 'severity': 2.0},
+            {'name': 'data_quality_degradation', 'severity': 0.3}
+        ]
+    
+    def _apply_stress_scenario(self, model, data_pipeline, scenario) -> dict:
+        """Apply stress scenario to model and return stressed metrics."""
+        base_accuracy = model.get('accuracy', 0.85) if isinstance(model, dict) else 0.85
+        severity = scenario.get('severity', 0.5)
         
+        # Apply stress based on scenario type
+        if scenario['name'] == 'data_drift':
+            return {'accuracy': base_accuracy * (1 - severity * 0.2), 'drift': severity}
+        elif scenario['name'] == 'concept_drift':
+            return {'accuracy': base_accuracy * (1 - severity * 0.3), 'drift': severity * 1.5}
+        elif scenario['name'] == 'load_spike':
+            return {'accuracy': base_accuracy * (1 - severity * 0.1), 'latency': severity * 100}
+        else:  # data_quality_degradation
+            return {'accuracy': base_accuracy * (1 - severity * 0.15), 'missing_rate': severity * 0.2}
+    
+    def _estimate_failure_under_stress(self, stressed_metrics: dict) -> float:
+        """Estimate failure probability under stressed conditions."""
+        accuracy = stressed_metrics.get('accuracy', 0.85)
+        drift = stressed_metrics.get('drift', 0)
+        
+        # Simple heuristic: lower accuracy + higher drift = higher failure prob
+        failure_prob = (1 - accuracy) * 0.5 + drift * 0.5
+        return min(1.0, max(0.0, failure_prob))
+    
+    def _calculate_scenario_cost(self, failure_prob: float, cost_model: dict, scenario: dict) -> float:
+        """Calculate expected cost for a scenario."""
+        downtime_cost = cost_model.get('downtime_cost_per_minute', 1000) if isinstance(cost_model, dict) else 1000
+        avg_mttr = 30  # minutes
+        
+        return failure_prob * downtime_cost * avg_mttr
+    
+    def _rate_risk(self, failure_prob: float, cost: float) -> str:
+        """Rate risk level based on failure probability and cost."""
+        if failure_prob > 0.7 or cost > 50000:
+            return 'CRITICAL'
+        elif failure_prob > 0.4 or cost > 20000:
+            return 'HIGH'
+        elif failure_prob > 0.2 or cost > 10000:
+            return 'MEDIUM'
+        else:
+            return 'LOW'
+    
+    def _generate_recommendation(self, fragility_index: float, margin_of_safety: float) -> str:
+        """Generate recommendation based on fragility analysis."""
+        if fragility_index > 0.7:
+            return 'URGENT: System is highly fragile. Immediate remediation required.'
+        elif fragility_index > 0.4:
+            return 'WARNING: Consider implementing additional safeguards.'
+        elif margin_of_safety < 0.3:
+            return 'CAUTION: Low margin of safety. Monitor closely.'
+        else:
+            return 'System resilience is acceptable. Continue monitoring.'
+    
     def calculate_fragility(self, model, data_pipeline, cost_model) -> Dict:
         """Fragility(model) = E[cost | stress scenarios]"""
         

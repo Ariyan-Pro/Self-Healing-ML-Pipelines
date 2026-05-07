@@ -14,19 +14,19 @@ logger = logging.getLogger(__name__)
 class HealingActions:
     """Orchestrates healing actions for ML pipeline recovery."""
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
         """
         Initialize healing actions.
         
         Args:
-            config: Healing configuration dictionary
+            config: Healing configuration dictionary. If None, uses default config.
         """
-        self.config = config
+        self.config = config or {}
         self.models_dir = Path("models")
         self.checkpoints_dir = self.models_dir / "checkpoints"
         self.registry_dir = self.models_dir / "registry"
-        self.fallback_model_path = Path(config.get("fallback_model_path", 
-                                                   "models/fallback/rule_based.joblib"))
+        self.fallback_model_path = Path(self.config.get("fallback_model_path", 
+                                                       "models/fallback/rule_based.joblib"))
         
         # Ensure directories exist
         self.models_dir.mkdir(exist_ok=True)

@@ -184,6 +184,10 @@ class ExperienceBuffer:
             with open(self.storage_path, 'r') as f:
                 data = json.load(f)
             
+            # Handle case where file contains {"experiences": [...]} format
+            if isinstance(data, dict) and 'experiences' in data:
+                data = data['experiences']
+            
             self.experiences = []
             for item in data:
                 # Handle missing fields in old format
