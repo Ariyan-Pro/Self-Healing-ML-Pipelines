@@ -1,381 +1,53 @@
-```
-# Dependencies
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.py~
-*.py.class
-*.py.obj
-*.py.out
-*.py.o
-*.py.a
-*.py.so
-*.py.dll
-*.py.exe
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar.xz
-*.py.tar.zst
-*.py.zst
-*.py.rar
-*.py.sit
-*.py.sitx
-*.py.hqx
-*.py.bin
-*.py.dmg
-*.py.img
-*.py.iso
-*.py.cdr
-*.py.msi
-*.py.apk
-*.py.ipa
-*.py.deb
-*.py.rpm
-*.py.scr
-*.py.sys
-*.py.vxd
-*.py.ocx
-*.py.dll
-*.py.so
-*.py.a
-*.py.lib
-*.py.o
-*.py.obj
-*.py.out
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar.xz
-*.py.tar.zst
-*.py.zst
-*.py.rar
-*.py.sit
-*.py.sitx
-*.py.hqx
-*.py.bin
-*.py.dmg
-*.py.img
-*.py.iso
-*.py.cdr
-*.py.msi
-*.py.apk
-*.py.ipa
-*.py.deb
-*.py.rpm
-*.py.scr
-*.py.sys
-*.py.vxd
-*.py.ocx
-*.py.dll
-*.py.so
-*.py.a
-*.py.lib
-*.py.o
-*.py.obj
-*.py.out
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar.xz
-*.py.tar.zst
-*.py.zst
-*.py.rar
-*.py.sit
-*.py.sitx
-*.py.hqx
-*.py.bin
-*.py.dmg
-*.py.img
-*.py.iso
-*.py.cdr
-*.py.msi
-*.py.apk
-*.py.ipa
-*.py.deb
-*.py.rpm
-*.py.scr
-*.py.sys
-*.py.vxd
-*.py.ocx
-*.py.dll
-*.py.so
-*.py.a
-*.py.lib
-*.py.o
-*.py.obj
-*.py.out
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar.xz
-*.py.tar.zst
-*.py.zst
-*.py.rar
-*.py.sit
-*.py.sitx
-*.py.hqx
-*.py.bin
-*.py.dmg
-*.py.img
-*.py.iso
-*.py.cdr
-*.py.msi
-*.py.apk
-*.py.ipa
-*.py.deb
-*.py.rpm
-*.py.scr
-*.py.sys
-*.py.vxd
-*.py.ocx
-*.py.dll
-*.py.so
-*.py.a
-*.py.lib
-*.py.o
-*.py.obj
-*.py.out
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar.xz
-*.py.tar.zst
-*.py.zst
-*.py.rar
-*.py.sit
-*.py.sitx
-*.py.hqx
-*.py.bin
-*.py.dmg
-*.py.img
-*.py.iso
-*.py.cdr
-*.py.msi
-*.py.apk
-*.py.ipa
-*.py.deb
-*.py.rpm
-*.py.scr
-*.py.sys
-*.py.vxd
-*.py.ocx
-*.py.dll
-*.py.so
-*.py.a
-*.py.lib
-*.py.o
-*.py.obj
-*.py.out
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar.xz
-*.py.tar.zst
-*.py.zst
-*.py.rar
-*.py.sit
-*.py.sitx
-*.py.hqx
-*.py.bin
-*.py.dmg
-*.py.img
-*.py.iso
-*.py.cdr
-*.py.msi
-*.py.apk
-*.py.ipa
-*.py.deb
-*.py.rpm
-*.py.scr
-*.py.sys
-*.py.vxd
-*.py.ocx
-*.py.dll
-*.py.so
-*.py.a
-*.py.lib
-*.py.o
-*.py.obj
-*.py.out
-*.py.class
-*.py.jar
-*.py.war
-*.py.ear
-*.py.rar
-*.py.sit
-*.py.tar
-*.py.tbz
-*.py.tbz2
-*.py.tgz
-*.py.tlz
-*.py.txz
-*.py.zip
-*.py.7z
-*.py.gz
-*.py.bz2
-*.py.xz
-*.py.lz4
-*.py.lzh
-*.py.cab
-*.py.arj
-*.py.rpm
-*.py.deb
-*.py.Z
-*.py.lz
-*.py.lzo
-*.py.tar.gz
-*.py.tar.bz2
-*.py.tar......
-```
+# Examples 1:
+
+    Input:
+    ### Added files:
+    [src/main.py, README.md, config.json]
+
+    ### Deleted files:
+    [old/unused.py]
+    ### Modified files:
+    [utils.py]
+    ###current .gitignore Content
+    (empty)
+    Expected Output:
+    (empty — output nothing)
+
+# Example 2 (Project with artifacts):
+Input:
+### Added files:
+[pycache/main.cpython-310.pyc, dist/app.js, .env.local, .vscode/settings.json
+
+### Deleted files:
+    []
+
+### Modified files:
+[]
+### current .gitignore Content
+*.log
+Expected Output:
+    #Compiled and build artifacts
+    *.pyc
+    pycache/
+    *.o
+    *.obj
+    dist/
+    build/
+    #Dependencies
+    .venv/
+    venv/
+    node_modules/
+    #Logs and temp files
+    *.log
+    *.tmp
+    *.swp
+    #Environment
+    .env
+    .env.local
+    .env.
+    #Editors
+    .vscode/
+    .idea/
+    #Original rules preserved
+    *.log
+Final reminder: Output ONLY the .gitignore content. If nothing should be ignored, output NOTHING.
