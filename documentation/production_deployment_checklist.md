@@ -7,6 +7,13 @@
 - [x] 22+ learning experiences collected
 - [x] System demonstrates rational cost optimization
 - [x] Production resilience verified (error containment)
+- [x] Release archive available (`Self-Healing-ML-Pipelines-Final.zip`)
+
+## 📦 RELEASE ARTIFACTS
+- **Archive File**: `Self-Healing-ML-Pipelines-Final.zip` (~3.7 MB)
+- **Contents**: Full source code, documentation, experiment results, deployment scripts
+- **Download**: Available via GitHub Releases or direct clone
+- **Verification**: Run `python validate_system.py` after extraction
 
 ## 🚀 DEPLOYMENT PHASES
 

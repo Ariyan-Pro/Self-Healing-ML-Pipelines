@@ -1,3 +1,52 @@
+--- .gitignore (原始)
+```
+# Python compiled files
+*.pyc
+__pycache__/
+
+# Model checkpoints and registry files
+models/checkpoints/
+models/registry/
+
+# Dependencies
+.venv/
+venv/
+node_modules/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Editors
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+*.env.*
+
+# Coverage reports
+.coverage
+coverage/
+htmlcov/
+
+# Distribution artifacts
+dist/
+build/
+target/
+
+# Package management
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# System files
+.DS_Store
+Thumbs.db
+```
+
++++ .gitignore (修改后)
 ```
 # Python
 __pycache__/

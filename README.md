@@ -244,6 +244,46 @@ xychart-beta
 
 ---
 
+## 📦 Release Artifacts & Downloads
+
+### Project Archive
+
+The complete project is packaged and available as a downloadable archive:
+
+| Artifact | Size | Contents |
+|----------|------|----------|
+| `Self-Healing-ML-Pipelines-Final.zip` | ~3.7 MB | Full source code, documentation, experiment results, deployment scripts |
+
+### Download Options
+
+```bash
+# Option 1: GitHub Releases (Recommended)
+wget https://github.com/Ariyan-Pro/Self-Healing-ML-Pipelines/releases/download/v0.1-safe-autonomy/Self-Healing-ML-Pipelines-Final.zip
+
+# Option 2: Clone from Git
+git clone https://github.com/Ariyan-Pro/Self-Healing-ML-Pipelines.git
+cd Self-Healing-ML-Pipelines
+
+# Verify installation
+python validate_system.py
+```
+
+### Archive Contents
+
+| Directory | Description |
+|-----------|-------------|
+| `adaptive/` | Adaptive learning system with contextual bandits |
+| `decision_engine/` | Hybrid decision engine (rules + bandits) |
+| `healing/` | Healing actions module (retrain, rollback, fallback) |
+| `monitoring/` | Real-time monitoring and drift detection |
+| `enterprise_platform/` | Multi-tenant enterprise deployment |
+| `docs/` | Architecture diagrams, research papers, logos |
+| `experiments/` | Ablation study and validation scripts |
+| `logs/` | Audit trails and decision traces |
+| `scripts/` | Utility scripts for pipeline execution |
+
+---
+
 ## 📉 Generate Charts Locally (Matplotlib + PowerShell)
 
 > 💡 Run the PowerShell setup block first, then copy each Python script into a `charts/` folder and execute as shown.
