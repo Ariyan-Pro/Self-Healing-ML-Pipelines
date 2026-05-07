@@ -15,6 +15,21 @@ All files needed for Hugging Face Spaces deployment are now ready in this direct
 3. **`HUGGINGFACE_DEPLOYMENT_GUIDE.md`** - Complete step-by-step guide
 4. **`requirements.txt`** - Updated with Flask & requests for web server
 
+### 📥 Download Complete Archive
+
+For offline deployment or local testing, download the complete project archive:
+
+- **File**: `Self-Healing-ML-Pipelines-Final.zip` (~3.7 MB)
+- **Location**: Repository root
+- **Contents**: All source code, documentation, and deployment files
+
+```bash
+# Extract and deploy locally
+unzip Self-Healing-ML-Pipelines-Final.zip
+cd Self-Healing-ML-Pipelines-Final
+python validate_system.py
+```
+
 ### ✅ Existing Files (Already in Your Project):
 
 - **`index.html`** - Your beautiful landing page ✓

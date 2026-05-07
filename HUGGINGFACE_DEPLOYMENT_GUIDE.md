@@ -56,6 +56,27 @@ Create an empty `logs/` folder - it will auto-populate with veto data.
 
 ---
 
+## 📥 Alternative: Download Complete Archive
+
+For offline deployment or bulk upload, you can download the complete project archive:
+
+- **File**: `Self-Healing-ML-Pipelines-Final.zip` (~3.7 MB)
+- **Location**: Repository root
+- **Contents**: All source code, documentation, and deployment files
+
+```bash
+# Extract locally for testing
+unzip Self-Healing-ML-Pipelines-Final.zip
+cd Self-Healing-ML-Pipelines-Final
+
+# Validate before deploying
+python validate_system.py
+
+# Then upload extracted files to HF Spaces
+```
+
+---
+
 ## 🔧 Step-by-Step Upload Process
 
 ### Step 1: Go to Your Hugging Face Space

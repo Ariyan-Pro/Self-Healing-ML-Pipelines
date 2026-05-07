@@ -9,6 +9,19 @@ An autonomous machine learning pipeline system that automatically detects, diagn
 - **System Readiness**: 92% (11/12 modules operational)
 - **Code Quality**: 205.6 KB across 43 Python modules
 - **Learning Progress**: 16+ experiences accumulated
+- **Release Archive**: `Self-Healing-ML-Pipelines-Final.zip` (~3.7 MB)
+
+## 📦 Release Artifacts
+
+The complete project is packaged and available for download:
+
+| Artifact | Size | Contents |
+|----------|------|----------|
+| `Self-Healing-ML-Pipelines-Final.zip` | ~3.7 MB | Full source code, documentation, experiment results, deployment scripts |
+
+**Location**: Repository root directory
+
+**Verification**: After extraction, run `python validate_system.py` to verify integrity.
 
 ## 🏗️ System Architecture
 
