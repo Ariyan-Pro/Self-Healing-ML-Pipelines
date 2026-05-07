@@ -82,6 +82,59 @@ class PredictiveFailureScorer:
             environment.get('stability_score', 1.0),
             # Add more features...
         ]
+    
+    def _heuristic_failure_score(self, features: List[float]) -> float:
+        """Calculate failure probability using heuristic scoring when model is not trained."""
+        if not features:
+            return 0.5
+        
+        # Heuristic: lower accuracy/f1, higher drift/missing_rate/outlier_rate = higher failure prob
+        accuracy = features[0] if len(features) > 0 else 0.5
+        f1_score = features[1] if len(features) > 1 else 0.5
+        drift_score = features[2] if len(features) > 2 else 0
+        missing_rate = features[3] if len(features) > 3 else 0
+        outlier_rate = features[4] if len(features) > 4 else 0
+        
+        # Weighted heuristic score
+        failure_prob = (
+            (1 - accuracy) * 0.25 +
+            (1 - f1_score) * 0.25 +
+            drift_score * 0.2 +
+            missing_rate * 0.15 +
+            outlier_rate * 0.15
+        )
+        
+        return min(1.0, max(0.0, failure_prob))
+    
+    def _estimate_mttr(self, failure_prob: float, features: List[float]) -> float:
+        """Estimate Mean Time To Recovery based on failure probability and features."""
+        # Base MTTR in minutes
+        base_mttr = 30.0
+        
+        # Higher failure probability might indicate more complex issues
+        mttr = base_mttr * (1 + failure_prob * 0.5)
+        
+        return mttr
+    
+    def _estimate_cost(self, failure_prob: float, mttr: float) -> float:
+        """Estimate expected cost of failure."""
+        # Cost per minute of downtime
+        cost_per_minute = 1000.0
+        
+        expected_cost = failure_prob * mttr * cost_per_minute
+        
+        return expected_cost
+    
+    def _risk_classification(self, failure_prob: float) -> str:
+        """Classify risk level based on failure probability."""
+        if failure_prob > 0.7:
+            return 'CRITICAL'
+        elif failure_prob > 0.4:
+            return 'HIGH'
+        elif failure_prob > 0.2:
+            return 'MEDIUM'
+        else:
+            return 'LOW'
 
 class FragilityIndex:
     """C.3 — Fragility Index (This Is Gold)"""
