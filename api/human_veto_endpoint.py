@@ -230,7 +230,11 @@ class HumanVetoHandler(BaseHTTPRequestHandler):
         path = parsed.path
         query = parse_qs(parsed.query)
         
-        if path == '/api/v1/human-veto' or path == '/api/v1/human-veto/':
+        if path == '/' or path == '/index.html':
+            # Serve the Human Veto Dashboard UI
+            self.serve_dashboard()
+        
+        elif path == '/api/v1/human-veto' or path == '/api/v1/human-veto/':
             # List pending vetoes
             status_filter = query.get('status', [None])[0]
             vetoes = self.store.get_all(status_filter)
@@ -268,6 +272,33 @@ class HumanVetoHandler(BaseHTTPRequestHandler):
         
         else:
             self.send_error_response('Not found', 404)
+    
+    def serve_dashboard(self):
+        """Serve the Human Veto Dashboard HTML page."""
+        dashboard_path = Path(__file__).parent / 'veto_dashboard.html'
+        if dashboard_path.exists():
+            try:
+                with open(dashboard_path, 'r') as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(content.encode())
+            except Exception as e:
+                self.send_error_response(f'Error loading dashboard: {e}', 500)
+        else:
+            self.send_json_response({
+                'message': 'Human Veto API is running',
+                'endpoints': {
+                    'list': 'GET /api/v1/human-veto',
+                    'create': 'POST /api/v1/human-veto',
+                    'update': 'PUT /api/v1/human-veto/<id>',
+                    'delete': 'DELETE /api/v1/human-veto/<id>',
+                    'history': 'GET /api/v1/human-veto/history',
+                    'health': 'GET /health'
+                }
+            })
     
     def do_POST(self):
         """Handle POST requests."""
