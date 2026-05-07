@@ -701,7 +701,10 @@ python test_integration.py
 **Areas actively welcoming contributions:**
 - Additional drift detection methods (MMD, ADWIN, Page-Hinkley)
 - New healing strategies beyond retrain/rollback/fallback
-- Integration connectors for MLflow, Weights & Biases, SageMaker
+- ~~Integration connectors for MLflow, Weights & Biases, SageMaker~~ ✅ **NOW AVAILABLE!**
+  - `MLflowConnector`: Full experiment tracking and model registry integration
+  - `WandBConnector`: Real-time visualization and collaboration features  
+  - `SageMakerConnector`: AWS training, deployment, and endpoint management
 - Extended experiment scenarios for the ablation suite
 
 ---
