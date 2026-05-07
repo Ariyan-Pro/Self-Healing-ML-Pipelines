@@ -1,7 +1,7 @@
 {
-  "version": "model_v20260507_090217",
-  "path": "models/checkpoints/model_v20260507_090217.joblib",
-  "training_date": "2026-05-07T09:02:17.262819",
+  "version": "model_v20260507_091139",
+  "path": "models/checkpoints/model_v20260507_091139.joblib",
+  "training_date": "2026-05-07T09:11:39.639422",
   "metrics": {
     "accuracy": 0.85,
     "f1_score": 0.847008547008547,

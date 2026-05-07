@@ -20,13 +20,14 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # Logs
-logs/
 *.log
+logs/
 
-# Experiment results and data files
-*.json
+# Models and data
+models/
 *.joblib
 
 # Environment
@@ -42,6 +43,7 @@ ENV/
 .idea/
 *.swp
 *.swo
+*.tmp
 
 # OS
 .DS_Store
