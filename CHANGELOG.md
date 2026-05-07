@@ -52,7 +52,7 @@ All notable changes to the Self-Healing ML Pipelines project will be documented 
 - **Architecture**: Hybrid (Deterministic Rules + Adaptive Bandits)
 - **Safety**: Confidence threshold 80%, cooldown 30 minutes
 - **Detection**: KS-test (threshold 0.2), Z-score (threshold 3.0)
-- **Healing Actions**: Retrain, Rollback, Fallback
+- **Healing Actions**: Retrain (requires labels), Rollback, Fallback
 - **Monitoring**: 30-minute windows, 14-day baselines
 - **Audit**: JSON decision traces, complete transparency
 
