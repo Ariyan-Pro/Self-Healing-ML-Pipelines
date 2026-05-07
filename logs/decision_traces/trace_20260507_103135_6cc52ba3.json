@@ -1,0 +1,15 @@
+{
+  "trace_id": "6cc52ba3-9148-4e4a-9de2-6fa2d96793d4",
+  "incident_id": "verification_test",
+  "timestamp": "2026-05-07T10:31:35.795582",
+  "state": {
+    "test": true
+  },
+  "rule_action": "test",
+  "bandit_action": "test",
+  "bandit_confidence": 0.9,
+  "final_action": "test",
+  "reason": "verification",
+  "cooldown_triggered": false,
+  "system_version": "v0.1-safe-autonomy"
+}

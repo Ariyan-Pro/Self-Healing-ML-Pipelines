@@ -56,7 +56,7 @@ def check_key_files():
         ('experiments/ablation_study.py', 'Empirical proof'),
         ('experiments/synthetic_drift.py', 'Drift experiments'),
         ('decision_engine/enhanced_policy_engine.py', 'Decision engine'),
-        ('Self-Healing-ML-Pipeline-v0.1-safe-autonomy.zip', 'Final archive')
+        ('Self-Healing-ML-Pipelines-Final.zip', 'Final archive')
     ]
     
     all_exist = True

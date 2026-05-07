@@ -21,29 +21,20 @@ wheels/
 .installed.cfg
 *.egg
 
-# Logs
-logs/
-*.log
-
-# Experiment results and data files
-*.json
-*.joblib
-
 # Environment
 .env
 .env.local
-.env.*
-.venv/
-venv/
-ENV/
+*.env.*
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# OS
-.DS_Store
-Thumbs.db
+# Logs
+*.log
+
+# Coverage
+.coverage
+htmlcov/
+.coverage.*
 ```

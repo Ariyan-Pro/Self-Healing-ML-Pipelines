@@ -36,34 +36,45 @@ class ExplanationBuilder:
     def _build_summary(self, trace: DecisionTrace) -> Dict[str, Any]:
         """Build a summary of the decision."""
         return {
-            "decision": trace.decision,
-            "severity": trace.severity,
+            "decision": trace.final_action or trace.rule_action or trace.bandit_action or "unknown",
+            "severity": self._infer_severity(trace),
             "reason": trace.reason,
-            "policy": trace.policy_name,
-            "confidence": trace.confidence,
-            "execution_time_ms": trace.execution_time_ms
+            "policy": "hybrid_control" if trace.bandit_action else "rule_based",
+            "confidence": trace.bandit_confidence or 1.0,
+            "execution_time_ms": 0
         }
+    
+    def _infer_severity(self, trace: DecisionTrace) -> str:
+        """Infer severity from state signals."""
+        state = trace.state or {}
+        drift_score = state.get("drift_score", 0)
+        accuracy_drop = state.get("accuracy_drop", 0)
+        anomaly_rate = state.get("anomaly_rate", 0)
+        
+        if drift_score > 0.2 or accuracy_drop > 0.1 or anomaly_rate > 0.05:
+            return "critical"
+        elif drift_score > 0.1 or accuracy_drop > 0.05 or anomaly_rate > 0.03:
+            return "high"
+        elif drift_score > 0.05 or accuracy_drop > 0.02:
+            return "medium"
+        else:
+            return "low"
     
     def _build_detailed_explanation(self, trace: DecisionTrace) -> Dict[str, Any]:
         """Build detailed explanation."""
         details = {
-            "signals_analyzed": len(trace.signals),
+            "signals_analyzed": len(trace.state) if trace.state else 0,
             "signal_values": {
                 key: round(float(value), 4) if isinstance(value, (int, float)) else str(value)
-                for key, value in trace.signals.items()
+                for key, value in (trace.state or {}).items()
             },
             "threshold_checks": self._extract_threshold_checks(trace),
             "decision_process": self._describe_decision_process(trace),
-            "timestamp": trace.timestamp.isoformat() if hasattr(trace.timestamp, 'isoformat') else str(trace.timestamp),
+            "timestamp": trace.timestamp,
             "trace_id": trace.trace_id
         }
         
-        if trace.metadata:
-            details["metadata"] = trace.metadata
-        
-        if trace.healing_action_result:
-            details["healing_result"] = trace.healing_action_result
-        
+        # No metadata, healing_action_result attributes in current DecisionTrace
         return details
     
     def _extract_threshold_checks(self, trace: DecisionTrace) -> List[Dict[str, Any]]:
@@ -73,12 +84,13 @@ class ExplanationBuilder:
         # Common thresholds for ML monitoring
         common_thresholds = {
             "data_drift": {"warning": 0.1, "critical": 0.2},
+            "drift_score": {"warning": 0.1, "critical": 0.2},
             "accuracy_drop": {"warning": 0.05, "critical": 0.1},
-            "anomaly_rate": {"warning": 0.03, "critical": 0.05},
-            "latency_ms": {"warning": 100, "critical": 500}
+            "anomaly_rate": {"warning": 0.03, "critical": 0.05}
         }
         
-        for signal_name, signal_value in trace.signals.items():
+        state = trace.state or {}
+        for signal_name, signal_value in state.items():
             if isinstance(signal_value, (int, float)):
                 check = {
                     "metric": signal_name,
@@ -104,23 +116,24 @@ class ExplanationBuilder:
     
     def _describe_decision_process(self, trace: DecisionTrace) -> Dict[str, Any]:
         """Describe the decision-making process."""
+        # Determine decision type based on available actions
+        if trace.bandit_action and trace.rule_action:
+            decision_type = "hybrid"
+        elif trace.bandit_action:
+            decision_type = "bandit"
+        else:
+            decision_type = "rule_based"
+        
         process = {
             "trigger": trace.reason or "Unknown trigger",
             "decision_maker": "policy_engine",
-            "decision_type": "rule_based",
+            "decision_type": decision_type,
             "traceability": {
                 "full_trace_available": True,
                 "trace_id": trace.trace_id,
                 "audit_ready": True
             }
         }
-        
-        # Add policy-specific details
-        if trace.policy_name:
-            process["policy"] = {
-                "name": trace.policy_name,
-                "applied": True
-            }
         
         return process
     
@@ -129,13 +142,14 @@ class ExplanationBuilder:
         recommendations = []
         
         # Base recommendation based on decision
+        final_action = trace.final_action or trace.rule_action or trace.bandit_action or "no_action"
         base_recommendation = {
-            "decision": trace.decision,
-            "priority": "high" if trace.severity in ["critical", "high"] else "medium",
-            "action_required": trace.decision != "no_action"
+            "decision": final_action,
+            "priority": "high" if trace.reason and ("critical" in trace.reason.lower() or "high" in trace.reason.lower()) else "medium",
+            "action_required": final_action != "no_action"
         }
         
-        if trace.decision == "retrain":
+        if final_action == "retrain":
             base_recommendation.update({
                 "recommendation": "Retrain the model with recent data",
                 "steps": [
@@ -148,7 +162,7 @@ class ExplanationBuilder:
                 "estimated_time": "1-2 hours",
                 "risk": "medium"
             })
-        elif trace.decision == "rollback":
+        elif final_action == "rollback":
             base_recommendation.update({
                 "recommendation": "Rollback to previous model version",
                 "steps": [
@@ -160,7 +174,7 @@ class ExplanationBuilder:
                 "estimated_time": "5-10 minutes",
                 "risk": "low"
             })
-        elif trace.decision == "fallback":
+        elif final_action == "fallback":
             base_recommendation.update({
                 "recommendation": "Switch to fallback model",
                 "steps": [
@@ -172,7 +186,7 @@ class ExplanationBuilder:
                 "estimated_time": "2-5 minutes",
                 "risk": "low"
             })
-        elif trace.decision == "no_action":
+        elif final_action == "no_action":
             base_recommendation.update({
                 "recommendation": "Continue monitoring",
                 "steps": [
@@ -186,38 +200,40 @@ class ExplanationBuilder:
         
         recommendations.append(base_recommendation)
         
-        # Add additional recommendations based on signals
-        if "data_drift" in trace.signals and trace.signals["data_drift"] > 0.15:
+        # Add additional recommendations based on state signals
+        state = trace.state or {}
+        if "data_drift" in state and state["data_drift"] > 0.15:
             recommendations.append({
                 "type": "investigation",
                 "recommendation": "Investigate data drift source",
                 "priority": "medium",
-                "details": f"Data drift score: {trace.signals['data_drift']:.3f}"
+                "details": f"Data drift score: {state['data_drift']:.3f}"
             })
         
-        if "anomaly_rate" in trace.signals and trace.signals["anomaly_rate"] > 0.03:
+        if "anomaly_rate" in state and state["anomaly_rate"] > 0.03:
             recommendations.append({
                 "type": "investigation",
                 "recommendation": "Investigate anomaly patterns",
                 "priority": "medium",
-                "details": f"Anomaly rate: {trace.signals['anomaly_rate']:.3f}"
+                "details": f"Anomaly rate: {state['anomaly_rate']:.3f}"
             })
         
         return recommendations
     
     def _build_visualization_data(self, trace: DecisionTrace) -> Dict[str, Any]:
         """Build data for visualization."""
+        state = trace.state or {}
         return {
             "metrics": {
                 key: float(value) if isinstance(value, (int, float)) else 0
-                for key, value in trace.signals.items()
+                for key, value in state.items()
                 if isinstance(value, (int, float))
             },
             "decision_timeline": {
-                "timestamp": trace.timestamp.isoformat() if hasattr(trace.timestamp, 'isoformat') else str(trace.timestamp),
-                "action": trace.decision
+                "timestamp": trace.timestamp,
+                "action": trace.final_action or trace.rule_action or trace.bandit_action or "unknown"
             },
-            "severity_level": trace.severity
+            "severity_level": self._infer_severity(trace)
         }
     
     def to_json(self, trace: DecisionTrace) -> str:
