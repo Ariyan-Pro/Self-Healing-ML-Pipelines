@@ -25,6 +25,11 @@ def demonstrate_production_readiness():
             data = json.load(f)
         
         experiences = data.get("experiences", []) if isinstance(data, dict) else data
+        
+        # Ensure experiences is a list before indexing
+        if not isinstance(experiences, list):
+            experiences = []
+        
         print(f"• Learning Experiences: {len(experiences)}")
         print(f"• Latest Experience: {experiences[-1] if experiences else 'None'}")
     
