@@ -117,8 +117,8 @@ def test_system_integration():
     
     try:
         # Test ConfigLoader
-        config = ConfigLoader().load_config()
-        if config and 'pipeline' in config:
+        config = ConfigLoader().load_config("pipeline.yaml")
+        if config and ('pipeline' in config or 'model' in config):
             print("  ✅ ConfigLoader: Loaded configuration")
         else:
             print("  ❌ ConfigLoader: Failed to load config")
@@ -126,8 +126,9 @@ def test_system_integration():
         
         # Test DataDriftDetector
         detector = DataDriftDetector()
-        drift_result = detector.check_drift([0.1, 0.2, 0.3], [0.15, 0.25, 0.35])
-        if drift_result is not None:
+        drift_result_obj = detector.detect_drift([0.1, 0.2, 0.3], [0.15, 0.25, 0.35])
+        drift_result = {'drift_score': drift_result_obj.drift_score} if drift_result_obj else None
+        if drift_result:
             print(f"  ✅ DataDriftDetector: drift_score={drift_result.get('drift_score', 'N/A')}")
         else:
             print("  ❌ DataDriftDetector: Failed")

@@ -103,6 +103,10 @@ class ShadowLearner:
         with open(self.experiences_path, 'r') as f:
             all_experiences = json.load(f)
         
+        # Handle case where file contains {"experiences": [...]} format
+        if isinstance(all_experiences, dict) and 'experiences' in all_experiences:
+            all_experiences = all_experiences['experiences']
+        
         # Filter by action
         action_experiences = [e for e in all_experiences 
                             if e.get("action_taken") == action]
@@ -150,6 +154,10 @@ class ShadowLearner:
         if self.experiences_path.exists():
             with open(self.experiences_path, 'r') as f:
                 actual_experiences = json.load(f)
+            
+            # Handle case where file contains {"experiences": [...]} format
+            if isinstance(actual_experiences, dict) and 'experiences' in actual_experiences:
+                actual_experiences = actual_experiences['experiences']
         
         # Find most recent actual experience
         recent_actual = None

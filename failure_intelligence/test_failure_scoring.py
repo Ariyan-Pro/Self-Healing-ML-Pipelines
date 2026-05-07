@@ -1,5 +1,11 @@
 """Test the failure intelligence system"""
 
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from failure_intelligence.failure_scoring import FailureIntelligence, PredictiveFailureScorer, FragilityIndex
+
 def test_failure_intelligence():
     print("Testing Failure Intelligence — The Crown Jewel")
     print("=" * 60)

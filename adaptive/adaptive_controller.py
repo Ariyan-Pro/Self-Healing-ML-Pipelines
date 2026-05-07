@@ -93,6 +93,29 @@ class AdaptiveHealingController:
         self.current_context = context
         return context
     
+    def decide(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Make adaptive healing decision using available components.
+        
+        Args:
+            context: Dictionary containing signals and system_state
+            
+        Returns:
+            Decision dictionary with action and metadata
+        """
+        signals = context.get('signals', {})
+        if not signals:
+            # Backwards compatibility: treat context as signals dict
+            signals = context
+        
+        system_state = context.get('system_state', {})
+        
+        action, metadata = self.decide_with_adaptation(signals, system_state)
+        return {
+            'action': action,
+            'metadata': metadata
+        }
+    
     def decide_with_adaptation(self, signals: Dict[str, float], 
                              system_state: Dict[str, Any]) -> Tuple[str, Dict[str, Any]]:
         """
