@@ -1,5 +1,7 @@
 """Risk-Based Deployment Engine"""
 
+from typing import Dict
+
 class DeploymentRiskEngine:
     """Predictive failure scoring for deployment decisions"""
     
