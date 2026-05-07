@@ -1,51 +1,55 @@
 ```
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+*.pyc
+*.pyo
+*.pyd
+
+# Models and experiment results
+models/current_metadata.json
+models/current_model.joblib
+**/experiment_results_*.json
+**/ablation_study_*.json
+**/concept_shift_*.json
+**/noise_injection_*.json
+experiment_results_*/**
 
 # Logs
 *.log
-logs/
-
-# Models and data
-models/
-*.joblib
 
 # Environment
 .env
 .env.local
 .env.*
+
+# Dependencies
 .venv/
 venv/
-ENV/
+node_modules/
 
-# IDE
+# Build artifacts
+build/
+dist/
+target/
+*.egg-info/
+
+# Coverage reports
+.coverage
+htmlcov/
+coverage/
+
+# IDE specific
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
 
-# OS
+# OS specific
 .DS_Store
 Thumbs.db
+
+# Testing
+.pytest_cache/
+.mypy_cache/
 ```
