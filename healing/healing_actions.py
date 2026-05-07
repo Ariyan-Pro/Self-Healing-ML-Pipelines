@@ -1,8 +1,9 @@
 """Healing actions for self-healing ML system."""
 import logging
 import json
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, Union
 from datetime import datetime
+import numpy as np
 import joblib
 import pandas as pd
 from pathlib import Path
@@ -34,14 +35,14 @@ class HealingActions:
         
         logger.info("HealingActions initialized")
     
-    def retrain(self, data: pd.DataFrame, labels: pd.Series, 
+    def retrain(self, data: pd.DataFrame, labels: Union[pd.Series, pd.DataFrame, list, np.ndarray, Any], 
                 model_params: Optional[Dict] = None) -> Dict[str, Any]:
         """
         Trigger model retraining.
         
         Args:
             data: Training features
-            labels: Training labels
+            labels: Training labels (can be Series, DataFrame, array, or list)
             model_params: Optional model parameters
             
         Returns:
@@ -67,8 +68,32 @@ class HealingActions:
             
             # Convert to numpy array and ensure 1D
             labels_array = np.asarray(labels)
+            
+            # Handle None labels - this happens when labels aren't provided
+            if labels is None or (isinstance(labels_array, type(None))):
+                raise ValueError("Labels are required for retraining but were not provided")
+            
+            # Handle case where labels might be a dict (e.g., {"predictions": array})
+            if isinstance(labels_array, dict) or (hasattr(labels, 'keys') and not hasattr(labels, 'dtype')):
+                # Try to extract predictions from dict-like structure
+                if isinstance(labels, dict) and 'predictions' in labels:
+                    labels_array = np.asarray(labels['predictions'])
+                elif isinstance(labels, dict) and len(labels) == 1:
+                    # Single key dict, use its value
+                    labels_array = np.asarray(list(labels.values())[0])
+                else:
+                    raise ValueError(f"Labels dict format not recognized: {type(labels)}")
+            
+            # Handle numpy scalars (0-dimensional arrays) - convert to 1D
+            if labels_array.ndim == 0:
+                labels_array = np.atleast_1d(labels_array)
+            
             if labels_array.ndim > 1:
                 labels_array = labels_array.ravel()
+            
+            # Ensure labels_array is not empty
+            if labels_array.size == 0:
+                raise ValueError("Labels array is empty")
             
             # Split data
             X_train, X_val, y_train, y_val = train_test_split(

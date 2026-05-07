@@ -1,31 +1,26 @@
 ```
-# Compiled Python files
+# Python compiled files
 *.pyc
 __pycache__/
 
-# Dependencies
-.venv/
-venv/
-node_modules/
+# Model checkpoints and registry files
+models/checkpoints/
+models/registry/
 
-# Logs
+# Logs and temporary files
 *.log
+*.tmp
 
 # Environment files
 .env
 .env.local
 *.env.*
 
-# Editors
+# Editors and IDE
 .vscode/
 .idea/
 
-# Coverage reports
-.coverage
-coverage/
-htmlcov/
-
-# ML specific
-.mlruns/
-wandb/
+# System files
+.DS_Store
+Thumbs.db
 ```
