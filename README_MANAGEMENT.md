@@ -30,9 +30,9 @@ An autonomous machine learning pipeline system that automatically detects, diagn
    - Performance monitoring
 
 4. **Healing Actions** (`healing/`, `pipelines/`)
-   - Automatic retraining
-   - Model rollback
-   - Fallback mechanisms
+   - Automatic retraining (requires labeled data)
+   - Model rollback (quick recovery to known-good state)
+   - Fallback mechanisms (immediate degraded service)
    - Complete audit trails
 
 ### Supporting Infrastructure:

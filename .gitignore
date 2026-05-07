@@ -1,46 +1,39 @@
 ```
-# Python compiled files
-*.pyc
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Model checkpoints and registry files
-models/checkpoints/
-models/registry/
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
 
 # Dependencies
 .venv/
 venv/
 node_modules/
 
-# Logs and temp files
-*.log
-*.tmp
-
-# Editors
-.vscode/
-.idea/
-
-# Environment files
-.env
-.env.local
-*.env.*
-
-# Coverage reports
-.coverage
-coverage/
-htmlcov/
-
-# Distribution artifacts
+# Build artifacts
 dist/
 build/
 target/
 
-# Package management
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
+# Coverage
+.coverage
+coverage/
+htmlcov/
 
-# System files
+# OS
 .DS_Store
 Thumbs.db
 ```

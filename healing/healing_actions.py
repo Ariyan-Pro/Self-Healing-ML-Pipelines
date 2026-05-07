@@ -42,13 +42,42 @@ class HealingActions:
         
         Args:
             data: Training features
-            labels: Training labels (can be Series, DataFrame, array, or list)
+            labels: Training labels (can be Series, DataFrame, array, or list).
+                   REQUIRED - retrain cannot proceed without labels.
+                   If labels are unavailable (common in production inference),
+                   consider using 'rollback' or 'fallback' actions instead.
             model_params: Optional model parameters
             
         Returns:
             Dictionary with retraining results
+            
+        Raises:
+            ValueError: If labels are None or empty
+            
+        Design Note:
+            Retrain requires labeled data which may not be immediately available
+            in production (labels often arrive with delay). This is by design:
+            - Use 'rollback' when you need quick recovery to a known-good state
+            - Use 'fallback' when you need immediate but degraded service
+            - Use 'retrain' only when fresh labeled data is available
         """
         logger.info("Starting retraining process")
+        
+        # DESIGN CHOICE: Retrain REQUIRES labels - this is intentional
+        # In production, labels may not be available immediately after inference
+        # Common scenarios:
+        # 1. Online inference: Labels arrive hours/days later (user feedback loop)
+        # 2. Batch inference: Labels available from held-out test set
+        # 3. Semi-supervised: Pseudo-labels from confident predictions
+        if labels is None:
+            raise ValueError(
+                "Retrain action requires labels but none were provided. "
+                "This is a design choice: retrain needs ground truth to learn from. "
+                "Options: (1) Provide labels from delayed feedback, "
+                "(2) Use 'rollback' action for quick recovery, "
+                "(3) Use 'fallback' action for immediate degraded service, "
+                "(4) Implement pseudo-labeling for unlabeled data."
+            )
         
         try:
             # Import here to avoid circular dependencies
@@ -68,10 +97,6 @@ class HealingActions:
             
             # Convert to numpy array and ensure 1D
             labels_array = np.asarray(labels)
-            
-            # Handle None labels - this happens when labels aren't provided
-            if labels is None or (isinstance(labels_array, type(None))):
-                raise ValueError("Labels are required for retraining but were not provided")
             
             # Handle case where labels might be a dict (e.g., {"predictions": array})
             if isinstance(labels_array, dict) or (hasattr(labels, 'keys') and not hasattr(labels, 'dtype')):
