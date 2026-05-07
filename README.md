@@ -701,7 +701,7 @@ python test_integration.py
 **Areas actively welcoming contributions:**
 - Additional drift detection methods (MMD, ADWIN, Page-Hinkley)
 - New healing strategies beyond retrain/rollback/fallback
-- Integration connectors for MLflow, Weights & Biases, SageMaker
+- Integration connectors for SageMaker, Azure ML, Google Vertex AI
 - Extended experiment scenarios for the ablation suite
 
 ---
